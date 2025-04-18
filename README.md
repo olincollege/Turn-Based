@@ -1,33 +1,53 @@
-# Python Project Template Repository
+# (*Insert Game Name*) - Turn-Based Game
 
-This is a template repository for a Python project. Feel free to use and edit
-this repository (including this file) for your needs. Below, find some
-instructions and tips for using this template repository.
+This is a pygame implementation of a two-player turn-based game using the Model-Controller-View framework. The game is designed to be played on a single computer, with each player taking turns to make their moves.
 
-## How to Use
+## Getting Started
 
-Click on the "Use this template" button in the top right corner to create a new
-repository based on this template. If this is for a class project, we ask that
-you keep it in the `olincollege` GitHub organization, and that you refrain from
-keeping the repository private. This will ensure that relevant people can access
-your repository for assessment, etc.
+These instructions will get you up and running with a local version of the game.
 
-## Requirements
+### Prerequisites
 
-The `requirements.txt` file is blank and should be filled out with any project
-dependencies. There is a Python package called `pipreqs` that autogenerates the
-contents of the `requirements.txt` file based on the `import` statements in your
-`.py` files. To get this, run
+* Python 3.12 or higher
+* Pygame
+You can install the prerequisites using pip:
 
-```
-pip install pipreqs
+```bash
+pip install pygame
 ```
 
-Then, in the root of your project repository, run:
+### Running the Game
 
-```
-pipreqs --mode compat
-```
+To run the game, run the following command in your terminal:
 
-If you already have a `requirements.txt`, the above command will ask you to
-rerun the command with the `--force` flag to overwrite it.
+```bash
+python3 Game.py
+```
+### Game Controls
+
+Instructions for the game are displayed on the start screen(maybe a help section?!?)
+* Use a mouse or your trackpad to select which Olin building you want to send Oliners to and from.
+* Use any combination of number keys to select the number of Oliners you want to send.
+* Use the space bar to confirm your selection and send the Oliners.
+* Use the escape key to exit the game at any time.
+
+### Game Rules
+
+The game is played on a grid representing Olin buildings. Players take turns sending Oliners between buildings. Both players will make their choices in how and where they move their Oliners before the actions of both players occur. This simultaneous game-dynamic ensures that players have to make predictive moves based on their opponent. The goal is to control the most buildings by the end of the game (5 minutes).
+
+Players can send Oliners from one building to another by selecting the source and destination buildings and specifying the number of Oliners to send. It is only possible to send Oliners from one building to another if both buildings are connected. The game ends when all buildings are controlled by one player or when the time runs out.
+
+For each controlled building, players get more Oliners to send in the next turn. These extra Oliners will be spawned in the controlled building at the start of the next turn.
+
+Every turn, the home-base building of each player will spawn 5 Oliners. This number will not change throughout the course of the game.
+
+The control of a building is determined by the number of Oliners present in that building. If a player has more Oliners than the opponent in a building, they control it. If both players have the same number of Oliners, the building remains or becomes neutral.
+
+
+### Running PyTests
+
+To run unit tests, execute the following command in your terminal:
+
+```bash
+pytest
+```
