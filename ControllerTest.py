@@ -42,9 +42,9 @@ class MouseController(GameController):
         Docstring
         """
         
-        self.pos = pg.mouse.get_pos()
+        return pg.mouse.get_pos()
 
-    def check_if_viable(self):
+    def get_circle(self):
         """
         Checks if the cursor is over a viable circle
 
@@ -54,19 +54,17 @@ class MouseController(GameController):
             index: the index of the circle that the cursor if over from
             circle_data
         """
-        viable_pos = False
         circles = [
             (400, 100, 30), (200, 200, 30), (600, 200, 30),
             (200, 400, 30), (600, 400, 30), (400, 500, 30)
         ]
         # Eventually we will want to load the circles from the model class
         for index, circle in enumerate(circles):
-            x_dist = self.pos[0] - circle[0]
-            y_dist = self.pos[1] - circle[1]
-            if (x_dist**2 + y_dist**2) < 900:
+            x_dist = self.get_cursor_pos()[0] - circle[0]
+            y_dist = self.get_cursor_pos()[1] - circle[1]
+            if (x_dist**2 + y_dist**2) < 900: # and (index in player_owned):
                 # 900 assumes all circles will have radius of 30
-                viable_pos = True
-                return viable_pos, index
+                return index
 
     def get_number(self):
         """
@@ -83,9 +81,38 @@ class MouseController(GameController):
                 #raise ValueError
         except(ValueError):
             print("Input not in range or not a number")
+        return number
+    
+    def get_first_point(self):
+        """
+        Gets the origin of the blips to be moved
+        """
+        return self.get_circle()
+    
+    def get_second_point(self):
+        """
+         Get a second circle to move blips to. Checks if the circle is 
+         adjacent to the first one.
+        """   
+        connections = {
+            0: [1, 2], 1: [0, 2, 3, 4], 2: [0, 1, 3, 4],
+            3: [1, 2, 4, 5], 4: [1, 2, 3, 5], 5: [3, 4]
+        }
+        second_circle = self.get_circle()
+        if second_circle in connections[self.get_first_point()]:
+            return second_circle
+        else:
+            raise ValueError
+        #first circle/get_first_point will be overridden in the game function
 
     def get_click(self):
         """
         Docstring
         """
         #if pg.MOUSEBUTTONDOWN
+
+# WHAT WE NEED FROM MODEL
+# The list of circle coordinates and circle sizes
+# The list of connections of nodes
+# The number of blips at each point
+
