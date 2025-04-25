@@ -78,6 +78,6 @@ class Model:
         pygame.quit()
 
 # Instantiate and run the game
-if __name__ == "__main__":
-    game = Model()
-    game.run()
+# if __name__ == "__main__":
+#     game = Model()
+#     game.run()
