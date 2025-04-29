@@ -1,5 +1,6 @@
 import pygame as pg
 from Model import Model
+import math
 
 class View: 
     """
@@ -14,13 +15,24 @@ class View:
         self.screen = model.screen
         self.clock = model.clock
         self.running = True
+        # Circle data (x, y, radius)
+        self.circle_data = [
+            (400, 100, 30), (200, 200, 30), (600, 200, 30),
+            (200, 400, 30), (600, 400, 30), (400, 500, 30)
+        ]
+
+        # Colors
+        self.white = (255, 255, 255)
+        self.black = (0, 0, 0)
+        self.red = (255, 0, 0)
+        self.blue = (0, 0, 255)
 
     def draw(self):
         """
         Draw the circles and connections on the screen.
         """
-        self.model.draw_circles()
-        self.model.draw_connections()
+        self.draw_circles()
+        self.draw_connections()
         
     def update(self):
         """
@@ -30,7 +42,7 @@ class View:
             if event.type == pg.QUIT:
                 self.running = False
         
-        self.screen.fill(self.model.black)
+        self.screen.fill(self.black)
         self.draw()
         pg.display.flip()
 
@@ -48,5 +60,32 @@ class View:
         please give them the computer', True, black, white)
         text_rect = text.get_rect()
         text_rect.center = (x // 2, y)
+
+    def calculate_edge_point(self, x1, y1, x2, y2, radius):
+        """Calculate the point on the edge of a circle closest to another point."""
+        angle = math.atan2(y2 - y1, x2 - x1)
+        edge_x = x1 + radius * math.cos(angle)
+        edge_y = y1 + radius * math.sin(angle)
+        return edge_x, edge_y
+
+    def draw_circles(self):
+        """Draw circles with only an outline."""
+        for x, y, radius in self.circle_data:
+            pg.draw.circle(self.screen, self.white, (x, y), radius, 1)
+
+    def draw_connections(self):
+        """Draw connections between circles."""
+        for circle_index, connected_indices in self.model.connections.items():
+            for connected_index in connected_indices:
+                # Get coordinates and radii of connected circles
+                start_x, start_y, start_radius = self.circle_data[circle_index]
+                end_x, end_y, end_radius = self.circle_data[connected_index]
+
+                # Calculate edge points
+                start_edge = self.calculate_edge_point(start_x, start_y, end_x, end_y, start_radius)
+                end_edge = self.calculate_edge_point(end_x, end_y, start_x, start_y, end_radius)
+
+                # Draw line between edge points
+                pg.draw.line(self.screen, self.white, start_edge, end_edge, 2)
 
     
