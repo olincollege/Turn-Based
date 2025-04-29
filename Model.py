@@ -10,16 +10,6 @@ class Model:
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption("Game Network Map")
 
-        # Colors
-        self.white = (255, 255, 255)
-        self.black = (0, 0, 0)
-        self.red = (255, 0, 0)
-
-        # Circle data (x, y, radius)
-        self.circle_data = [
-            (400, 100, 30), (200, 200, 30), (600, 200, 30),
-            (200, 400, 30), (600, 400, 30), (400, 500, 30)
-        ]
 
         # Connections (index of connected circles)
         self.connections = {
@@ -32,36 +22,6 @@ class Model:
         self.oliners = [5, 5, 5, 5, 5, 5]
 
         self.running = True
-    
-    def add_oliners(self):
-        """
-        Adds an Oliner to each owned building
-        """
-        for index in range(len(self.oliners)):
-            if self.owners[index] > 0:
-                self.oliners[index] += 1
-
-    def send_oliners(self, first_point, second_point, number_to_move):
-        """
-        Works out how Oliners are sent from building to building. Changes who
-        owns what building
-        NOTE: We can't input directly from controller to here within the class
-        without changing inheritance structures. We can add the inputs in the
-        update function instead, outside of the class
-        """
-        player = self.owners[first_point]
-        self.oliners[first_point] -= number_to_move
-        if self.owners[second_point] == player:
-            self.oliners[second_point] += number_to_move
-        elif self.oliners[second_point] > number_to_move:
-            self.oliners[second_point] -= number_to_move
-        elif self.oliners[second_point] == number_to_move:
-            self.oliners[second_point] = 0
-            self.owners[second_point] = player
-        elif self.oliners[second_point] < number_to_move:
-            self.oliners[second_point] = number_to_move - self.oliners[second_point]
-            self.owners[second_point] = player
-        
 
     def calculate_edge_point(self, x1, y1, x2, y2, radius):
         """Calculate the point on the edge of a circle closest to another point."""
