@@ -1,8 +1,5 @@
 import os
 import pygame as pg
-import game_clock
-from ending_screen import draw_end_screen  
-from openingscreen import main_menu
 import sys
 
 # Initialize Pygame
@@ -20,17 +17,8 @@ white = (255, 255, 255)
 
 def main_menu(screen, WIDTH, HEIGHT):
     """Displays the main menu and handles button interaction."""
-    import pygame
-    import sys
-
-    # Import the function from init_game.py
-    try:
-        from init_game import main as init_game_main
-    except ImportError:
-        init_game_main = None
-
     def get_font(size):
-        return pygame.font.Font(None, size)
+        return pg.font.Font(None, size)
 
     font = get_font(50)
 
@@ -40,26 +28,23 @@ def main_menu(screen, WIDTH, HEIGHT):
 
     # Button centered on the screen
     buttons = {
-        "Play": pygame.Rect((WIDTH - button_width) // 2, 100, button_width, button_height),
-        "Options": pygame.Rect((WIDTH - button_width) // 2, 180, button_width, button_height),
-        "Quit": pygame.Rect((WIDTH - button_width) // 2, 260, button_width, button_height)
+        "Play": pg.Rect((WIDTH - button_width) // 2, 100, button_width, button_height),
+        "Options": pg.Rect((WIDTH - button_width) // 2, 180, button_width, button_height),
+        "Quit": pg.Rect((WIDTH - button_width) // 2, 260, button_width, button_height)
     }
 
     running = True
     while running:
         screen.fill((200, 200, 200))  # Fill the screen with gray
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
                 running = False
 
-            elif event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pg.MOUSEBUTTONDOWN:
                 if buttons["Play"].collidepoint(event.pos):
-                    # Link to init_game.py when Play is clicked
-                    if init_game_main is not None:
-                        init_game_main()
-                    else:
-                        print("init_game.py or its main() function not found.")
+                    # Call the main function directly when Play is clicked
+                    main()
                 elif buttons["Options"].collidepoint(event.pos):
                     # Placeholder for options action
                     pass
@@ -67,16 +52,15 @@ def main_menu(screen, WIDTH, HEIGHT):
                     running = False
 
         for text, rect in buttons.items():
-            pygame.draw.rect(screen, (0, 0, 0), rect)  # Draw button background
+            pg.draw.rect(screen, (0, 0, 0), rect)  # Draw button background
             label = font.render(text, True, (255, 255, 255))  # Render button text
             label_rect = label.get_rect(center=rect.center)  # Center the text
             screen.blit(label, label_rect)  # Draw the text on the button
 
-        pygame.display.flip()
+        pg.display.flip()
 
-    pygame.quit()
+    pg.quit()
     sys.exit()
-
 
 def init_game():
     pg.init()
@@ -187,4 +171,4 @@ def main():
     pg.quit()
 
 if __name__ == "__main__":
-    main()  # Start the game
+    main_menu(screen, screen_width, screen_height)  # Start with the main menu
