@@ -34,4 +34,19 @@ class View:
         self.draw()
         pg.display.flip()
 
+    def show_next_player(self):
+        """
+        Display "Player _ is next, please move the computer
+        """
+        x = self.model.screen_width
+        y = self.model.screen_height
+        black = (0, 0, 0)
+        white = (225, 225, 225)
+        font = pg.font.Font('freesansbold.ttf', 32)
+
+        text = font.render(f'{self.model.next_player} is next, \
+        please give them the computer', True, black, white)
+        text_rect = text.get_rect()
+        text_rect.center = (x // 2, y)
+
     
