@@ -4,7 +4,7 @@ import sys
 # Initialize Pygame and set up screen dimensions and colors
 def init_game():
     pygame.init()
-    WIDTH, HEIGHT = 600, 400
+    WIDTH, HEIGHT = 800, 600
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Main Menu")
     return screen, WIDTH, HEIGHT
