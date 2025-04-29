@@ -1,7 +1,7 @@
 import os
 import pygame as pg
 import game_clock
-from ending_screen import draw_end_screen  # Import the standalone function
+from ending_screen import draw_end_screen  
 from openingscreen import main_menu
 import sys
 

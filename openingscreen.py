@@ -52,14 +52,14 @@ def main_menu(screen, WIDTH, HEIGHT):
     font = get_font(50)
 
     # Button dimensions
-    button_width = 200
-    button_height = 60
+    button_width = 400
+    button_height = 100
 
     # Button centered on the screen
     buttons = {
         "Play": pygame.Rect((WIDTH - button_width) // 2, 100, button_width, button_height),
-        "Options": pygame.Rect((WIDTH - button_width) // 2, 180, button_width, button_height),
-        "Quit": pygame.Rect((WIDTH - button_width) // 2, 260, button_width, button_height)
+        "Options": pygame.Rect((WIDTH - button_width) // 2, (HEIGHT - button_height) // 2, button_width, button_height),
+        "Quit": pygame.Rect((WIDTH - button_width) // 2, 400, button_width, button_height)
     }
 
     running = True
