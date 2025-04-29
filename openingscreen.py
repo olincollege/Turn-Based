@@ -1,10 +1,12 @@
+import pygame 
+
 self.in_start_screen = True
 
 def draw_start_screen(self):
     self.screen.fill(self.black)
 
     font = pygame.font.SysFont(None, 48)
-    title_text = font.render("Welcome to TurnBase!", True, self.white)
+    title_text = font.render("Welcome to Capture Olin!", True, self.white)
     prompt_text = font.render("Press SPACE to start", True, self.white)
 
     title_rect = title_text.get_rect(center=(self.screen_width // 2, self.screen_height // 2 - 40))
