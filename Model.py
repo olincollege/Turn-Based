@@ -74,6 +74,8 @@ class Model:
             # Update the display
             pygame.display.flip()
 
+    def 
+
         # Quit Pygame
         pygame.quit()
 
