@@ -1,23 +1,51 @@
 import os
 import pygame as pg
+import game_clock
+from ending_screen import draw_end_screen  # Import the standalone function
+from openingscreen import main_menu
+# Initialize Pygame
+pg.init()
 
-if not pg.font:
-    print("Warning, fonts disabled")
-if not pg.mixer:
-    print("Warning, sound disabled")
+# Screen setup
+screen_width = 800
+screen_height = 600
+screen = pg.display.set_mode((screen_width, screen_height))
+pg.display.set_caption("Game")
 
-main_dir = os.path.split(os.path.abspath(__file__))[0]
-data_dir = os.path.join(main_dir, "data")
+# Colors
+black = (0, 0, 0)
+white = (255, 255, 255)
 
-start_time = pg.time.get_ticks()
-current_time = pg.time.get_ticks()
-elapsed_time = start_time - current_time
-elapsed_time_ms = elapsed_time / 1000.0
+def main():
+    # Call the main menu function
+    main_menu(screen, screen_width, screen_height)
 
-minutes = int(elapsed_time_ms / 60)
-seconds = int(elapsed_time_ms % 60)
-time_string = "{:02d}:{:02d}".format(minutes, seconds)
+    # Main game loop
+    running = True
+    while running:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                running = False
 
-time_text = pg.font.render(time_string, True, (255, 255, 255))
-screen = pg.display.set_mode((800, 600))
-scree
+    # Set up the game clock
+    elapsed_time = game_clock.game_clock()
+
+    if elapsed_time <= 0:
+        # Timer has reached zero, stop the game --> show the end screen
+        draw_end_screen(screen, screen_width, screen_height, black, white, "")  # Call the standalone function
+
+        # Wait for user input to exit the end screen
+        end_screen_active = True
+        while end_screen_active:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    running = False
+                    end_screen_active = False
+                elif event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
+                    running = False
+                    end_screen_active = False
+
+    pg.quit()
+
+if __name__ == "__main__":
+    main()  # Start the game
