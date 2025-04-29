@@ -12,13 +12,6 @@ data_dir = os.path.join(main_dir, "data")
 # Initialize Pygame
 pg.init()
 
-# Screen setup
-screen = pg.display.set_mode((800, 600))
-pg.display.set_caption("Timer Example")
-
-# Clock and font setup
-clock = pg.time.Clock()
-font = pg.font.Font(None, 36)
 
 # Timer setup
 start_time = 300000
@@ -28,6 +21,14 @@ while running:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             running = False
+
+    # Screen setup
+    screen = pg.display.set_mode((800, 600))
+    pg.display.set_caption("Timer Example")
+
+    # Clock and font setup
+    clock = pg.time.Clock()
+    font = pg.font.Font(None, 36)
 
     # Calculate elapsed time
     current_time = pg.time.get_ticks()
