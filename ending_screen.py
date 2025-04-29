@@ -5,7 +5,7 @@ def draw_end_screen(screen, screen_width, screen_height, black, white, winner):
     screen.fill(black)
 
     font = pygame.font.SysFont(None, 48)
-    title_text = font.render("Game Over!", True, white)
+    title_text = font.render("Game Over! Press Q to exit or R to play again.", True, white)
     if not winner.strip():
         prompt_text = font.render("Time Ran Out!", True, white)
     else:

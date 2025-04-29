@@ -72,7 +72,7 @@ def main_menu(screen, WIDTH, HEIGHT):
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if buttons["Play"].collidepoint(event.pos):
-                    play(screen, HEIGHT)
+                    return
                 elif buttons["Options"].collidepoint(event.pos):
                     options(screen, HEIGHT)
                 elif buttons["Quit"].collidepoint(event.pos):
