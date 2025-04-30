@@ -26,6 +26,8 @@ class View:
         self.black = (0, 0, 0)
         self.red = (255, 0, 0)
         self.blue = (0, 0, 255)
+        self.oliners_count = model.oliners_count
+        self.font = pg.font.Font(None, 10)
 
     def draw(self):
         """
@@ -33,6 +35,18 @@ class View:
         """
         self.draw_circles()
         self.draw_connections()
+        for index, value in enumerate(self.oliners_count):
+            position = list(self.circle_data[index])
+            self.draw_numbers(value, position)
+
+    def draw_numbers(self, count, position):
+        """
+        Write the number of Oliners at each building
+        """
+        black = (0, 0, 0)
+        text = self.font.render(f'{count}', True, black)
+        text_rect = text.get_rect()
+        text_rect.topleft = (position[0], position[1])
         
     def update(self):
         """

@@ -14,7 +14,6 @@ screen_height = 600
 screen = pg.display.set_mode((screen_width, screen_height))
 pg.display.set_caption("Game")
 
-# Colors
 black = (0, 0, 0)
 white = (255, 255, 255)
 
