@@ -10,15 +10,15 @@ class GameController(ABC):
         """
         
         """
-        self._model = model
-        self._circles = circles
+        self.model = model
+        self.circles = circles
     
     @property
     def model(self):
         """
         
         """
-        return self._model
+        return self.model
     
     @property
     def circles(self):
@@ -49,6 +49,16 @@ class MouseController(GameController):
 
     """
 
+    def __init__(self, model, view):
+        """
+        
+        """
+        self.model = model
+        self.view = view
+        self.circle_data = view.circle_data
+        self.connections = model.connections
+        self.oliners_count = model.oliners_count
+
     def get_cursor_pos(self):
         """
         Docstring
@@ -66,12 +76,7 @@ class MouseController(GameController):
             index: the index of the circle that the cursor if over from
             circle_data
         """
-        circles = [
-            (400, 100, 30), (200, 200, 30), (600, 200, 30),
-            (200, 400, 30), (600, 400, 30), (400, 500, 30)
-        ]
-        # Eventually we will want to load the circles from the model class
-        for index, circle in enumerate(circles):
+        for index, circle in enumerate(self.circle_data):
             x_dist = self.get_cursor_pos()[0] - circle[0]
             y_dist = self.get_cursor_pos()[1] - circle[1]
             if (x_dist**2 + y_dist**2) < 900: # and (index in player_owned):
@@ -106,12 +111,8 @@ class MouseController(GameController):
          Get a second circle to move blips to. Checks if the circle is 
          adjacent to the first one.
         """   
-        connections = {
-            0: [1, 2], 1: [0, 2, 3, 4], 2: [0, 1, 3, 4],
-            3: [1, 2, 4, 5], 4: [1, 2, 3, 5], 5: [3, 4]
-        }
         second_circle = self.get_circle()
-        if second_circle in connections[self.get_first_point()]:
+        if second_circle in self.connections[self.get_first_point()]:
             return second_circle
         else:
             raise ValueError
@@ -122,6 +123,17 @@ class MouseController(GameController):
         Docstring
         """
         #if pg.MOUSEBUTTONDOWN
+
+    def move(self):
+        #Get key press
+        first_point = self.get_first_point()
+        second_point = self.get_second_point
+        number = self.get_number()
+        if number > self.oliners_count[first_point]:
+            print("Input not in range or not a number")
+            raise ValueError
+        return [first_point, second_point, number]
+
 
 # WHAT WE NEED FROM MODEL
 # The list of circle coordinates and circle sizes
@@ -176,7 +188,7 @@ class KeyController(GameController):
         """
         return self.get_circle()
     
-    def get_second_point(self):
+    def get_second_point(self, first_point):
         """
          Get a second circle to move blips to. Checks if the circle is 
          adjacent to the first one.
@@ -186,7 +198,7 @@ class KeyController(GameController):
             3: [1, 2, 4, 5], 4: [1, 2, 3, 5], 5: [3, 4]
         }
         second_circle = self.get_circle()
-        if second_circle in connections[self.get_first_point()]:
+        if second_circle in connections[first_point]:
             return second_circle
         else:
             raise ValueError
