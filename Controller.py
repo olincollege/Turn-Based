@@ -13,13 +13,6 @@ class GameController(ABC):
         self.model = model
         self.circles = circles
     
-    @property
-    def model(self):
-        """
-        
-        """
-        return self.model
-    
     @abstractmethod
     def get_first_point(self):
         """
