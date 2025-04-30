@@ -5,7 +5,9 @@ from openingscreen import main_menu
 from ending_screen import draw_end_screen
 from game_clock import game_clock
 from sequence import get_player_input, display_text, init_game, get_font, draw_move_buttons, reveal_moves, space_input
-
+from ControllerTest import MouseController
+from Model import Model
+from View import View
 # # Initialize Pygame
 # pg.init()
 
@@ -27,12 +29,19 @@ def main():
         main_menu(screen, WIDTH, HEIGHT) 
 
         screen.fill((0, 0, 0))
-        game_clock()
+        #game_clock()
 
         # We need to fix the game clock
 
         # Player 1's turn
-        player1_move = get_player_input(screen)
+        model = Model()
+        view = View(model)
+        player_one = MouseController(model, view)
+        player_two = MouseController(model, view)
+
+        player1_move = player_one.move()
+        model.send_oliners(player1_move[0], player1_move[1], player1_move[2])
+
         space_input(screen, WIDTH, HEIGHT, white)
 
         screen.fill((0, 0, 0))
@@ -42,7 +51,8 @@ def main():
 
         screen.fill((0, 0, 0))
         # Player 2's turn
-        player2_move = get_player_input(screen)
+        player2_move = player_two.move()
+        model.send_oliners(player2_move[0], player2_move[1], player2_move[2])
         space_input(screen, WIDTH, HEIGHT, white)
         
         screen.fill((0, 0, 0))
@@ -51,7 +61,7 @@ def main():
         pg.time.wait(1000)  # Wait for 1 second before revealing moves
 
         # Reveal both moves
-        reveal_moves(screen, player1_move, player2_move)
+        view.draw()
         space_input(screen, WIDTH, HEIGHT, white)
 
         # Option to continue or quit
