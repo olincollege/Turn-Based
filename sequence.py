@@ -1,5 +1,6 @@
 import pygame as pg
 import sys
+from game_clock import game_clock
 
 def init_game():
     pg.init()
@@ -49,11 +50,12 @@ def draw_move_buttons(screen):
     return button_a, button_b, button_c
 
 def get_player_input(screen):
-    """Get input from the player using mouse clicks."""
+    """Get input from the player using mouse clicks while updating the game clock."""
     button_a, button_b, button_c = draw_move_buttons(screen)
     move = None
 
     while move is None:
+        # Handle events
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
@@ -66,31 +68,44 @@ def get_player_input(screen):
                 elif button_c.collidepoint(event.pos):
                     move = "C"
 
+        # Update and display the game clock
+        game_clock(screen)
+
+        # Draw the buttons again
+        draw_move_buttons(screen)
+
+        # Update the display
         pg.display.flip()
 
     return move
 
 def reveal_moves(screen, player1_move, player2_move):
     """Display both players' moves."""
-    screen.fill((0, 0, 0))
     display_text(screen, f"Player 1 Move: {player1_move}", 40, (255, 255, 255), 50, 100)
     display_text(screen, f"Player 2 Move: {player2_move}", 40, (255, 255, 255), 50, 150)
     pg.display.flip()
-    pg.time.wait(2000)  # Wait for 2 seconds to show moves
+    
 
 def space_input(screen, screen_width, screen_height, white):
-    """Wait for the player to press the space key."""
-    font = pg.font.SysFont(None, 24)
-    title_text = font.render("Press Spacebar to Continue", True, white)
-    title_rect = title_text.get_rect(center=(screen_width // 2, 550))
-    screen.blit(title_text, title_rect)
-    pg.display.update(title_rect)
-    
+    """Wait for the player to press the space key while updating the game clock."""
     waiting = True
     while waiting:
+        # Handle events
         for event in pg.event.get():
-            if event.type == pg.QUIT:  # Allow the user to quit the game
+            if event.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
             elif event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                 waiting = False  # Exit the loop when SPACE is pressed
+
+        # Update and display the game clock
+        game_clock(screen)
+
+        # Display the "Press Spacebar" message
+        font = pg.font.SysFont(None, 24)
+        title_text = font.render("Press Spacebar to Continue", True, white)
+        title_rect = title_text.get_rect(center=(screen_width // 2, screen_height - 50))
+        screen.blit(title_text, title_rect)
+
+        # Update the display
+        pg.display.flip()
