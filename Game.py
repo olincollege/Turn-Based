@@ -5,7 +5,7 @@ from openingscreen import main_menu
 from ending_screen import draw_end_screen
 from game_clock import game_clock
 from sequence import get_player_input, display_text, init_game, get_font, draw_move_buttons, reveal_moves, space_input
-from ControllerTest import MouseController
+from Controller import MouseController
 from Model import Model
 from View import View
 # # Initialize Pygame

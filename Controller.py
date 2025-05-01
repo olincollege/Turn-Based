@@ -102,7 +102,7 @@ class MouseController:
 # The list of circle coordinates and circle sizes
 # The list of connections of nodes
 # The number of blips at each point
-class KeyController(GameController):
+class KeyController():
     """ """
 
     def get_circle(self):
