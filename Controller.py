@@ -42,10 +42,34 @@ class MouseController:
                 # Else we need to display 'pick your own circle'
 
     def get_number(self):
+        on = True
+        while on is True:
+            for event in pg.event.get():
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_1:
+                        return 1
+                    if event.key == pg.K_2:
+                        return 2
+                    if event.key == pg.K_3:
+                        return 3
+                    if event.key == pg.K_4:
+                        return 4
+                    if event.key == pg.K_5:
+                        return 5
+                    if event.key == pg.K_6:
+                        return 6
+                    if event.key == pg.K_7:
+                        return 7
+                    if event.key == pg.K_8:
+                        return 8
+                    if event.key == pg.K_9:
+                        return 9
+
+    def check_number(self):
         """
         Get input number to move
         """
-        number = input("How many units do you want to move")
+        number = self.get_number()
         try:
             number = int(number)
             if not isinstance(number, int):
@@ -91,7 +115,7 @@ class MouseController:
         # Get key press - in move
         first_point = self.get_first_point()
         second_point = self.get_second_point
-        number = self.get_number()
+        number = self.check_number()
         if number > self.oliners_count[first_point]:
             print("Input not in range or not a number")
             raise ValueError
@@ -102,7 +126,7 @@ class MouseController:
 # The list of circle coordinates and circle sizes
 # The list of connections of nodes
 # The number of blips at each point
-class KeyController():
+class KeyController:
     """ """
 
     def get_circle(self):

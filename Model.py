@@ -23,7 +23,7 @@ class Model:
             5: [3, 4],
         }
         # Set who owns what point at the start. 0 is empty, 1 is player 1, etc.
-        self.owners = {0: 1, 1: 0, 2: 0, 3: 1, 4: 0, 5: 0}
+        self.owners = {0: 1, 1: 0, 2: 0, 3: 2, 4: 0, 5: 0}
         # How many oliners are at each point at the start
         self.oliners_count = [5, 5, 5, 5, 5, 5]
         self.running = True

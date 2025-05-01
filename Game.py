@@ -29,6 +29,8 @@ def main():
         main_menu(screen, WIDTH, HEIGHT) 
 
         screen.fill((0, 0, 0))
+        blue = (0, 225, 0)
+        red = (225, 0, 0)
         #game_clock()
 
         # We need to fix the game clock
