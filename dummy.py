@@ -4,10 +4,8 @@ import sys
 from openingscreen import main_menu
 from ending_screen import draw_end_screen
 from game_clock import game_clock
-from sequence import get_player_input, display_text, init_game, get_font, draw_move_buttons, reveal_moves, space_input
-from ControllerTest import MouseController
-from Model import Model
-from View import View
+from sequence import get_player_input, display_text, init_game, reveal_moves, space_input
+
 # # Initialize Pygame
 # pg.init()
 
@@ -26,45 +24,31 @@ def main():
     game_running = True
     while game_running:
 
-        main_menu(screen, WIDTH, HEIGHT) 
-
+        main_menu(screen, WIDTH, HEIGHT)
         screen.fill((0, 0, 0))
-        #game_clock()
-
-        # We need to fix the game clock
 
         # Player 1's turn
-        model = Model()
-        view = View(model)
-        player_one = MouseController(model, view)
-        player_two = MouseController(model, view)
-        view.draw()  # Draw the initial state of the game
-        pg.display.flip()  # Update the display
-
-    
-        player1_move = player_one.move()
-        model.send_oliners(player1_move[0], player1_move[1], player1_move[2])
-
+        player1_move = get_player_input(screen)
         space_input(screen, WIDTH, HEIGHT, white)
 
         screen.fill((0, 0, 0))
+        game_clock(screen)
         display_text(screen, "Pass the device to Player 2", 40, (255, 255, 255), 50, HEIGHT // 2)
         pg.display.flip()
         space_input(screen, WIDTH, HEIGHT, white)
 
-        screen.fill((0, 0, 0))
         # Player 2's turn
-        player2_move = player_two.move()
-        model.send_oliners(player2_move[0], player2_move[1], player2_move[2])
+        screen.fill((0, 0, 0))
+        player2_move = get_player_input(screen)
         space_input(screen, WIDTH, HEIGHT, white)
         
         screen.fill((0, 0, 0))
+        game_clock(screen)
         display_text(screen, "Revealing Moves...", 40, (255, 255, 255), 50, HEIGHT // 2)
         pg.display.flip()
-        pg.time.wait(1000)  # Wait for 1 second before revealing moves
+        # pg.time.delay(2000)
 
-        # Reveal both moves
-        view.draw()
+        reveal_moves(screen, player1_move, player2_move)
         space_input(screen, WIDTH, HEIGHT, white)
 
         # Option to continue or quit

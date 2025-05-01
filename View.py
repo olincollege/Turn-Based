@@ -13,7 +13,6 @@ class View:
         """
         self.model = model
         self.screen = model.screen
-        self.clock = model.clock
         self.running = True
         # Circle data (x, y, radius)
         self.circle_data = [

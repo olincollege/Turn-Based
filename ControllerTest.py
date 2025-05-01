@@ -2,49 +2,49 @@ import os
 import pygame as pg
 from abc import ABC, abstractmethod
 
-class GameController(ABC):
-    """
+# class GameController(ABC):
+#     """
     
-    """
-    def __init__(self, model, circles):
-        """
+#     """
+#     def __init__(self, model, circles):
+#         """
         
-        """
-        self.model = model
-        self.circles = circles
+#         """
+#         self.model = model
+#         self.circles = circles
     
-    @property
-    def model(self):
-        """
+#     @property
+#     def model(self):
+#         """
         
-        """
-        return self.model
+#         """
+#         return self.model
     
-    @property
-    def circles(self):
-        """
+#     @property
+#     def circles(self):
+#         """
         
-        """
-        return self._circles
+#         """
+#         return self._circles
     
-    @abstractmethod
-    def get_first_point(self):
-        """
-        """
+#     @abstractmethod
+#     def get_first_point(self):
+#         """
+#         """
 
-    @abstractmethod
-    def get_second_point(self):
-        """
-        """
+#     @abstractmethod
+#     def get_second_point(self):
+#         """
+#         """
 
-    @abstractmethod
-    def get_number(self):
-        """
-        """
+#     @abstractmethod
+#     def get_number(self):
+#         """
+#         """
 
     
 
-class MouseController(GameController):
+class MouseController():
     """
 
     """
@@ -139,7 +139,7 @@ class MouseController(GameController):
 # The list of circle coordinates and circle sizes
 # The list of connections of nodes
 # The number of blips at each point
-class KeyController(GameController):
+class KeyController():
     """
     """
 

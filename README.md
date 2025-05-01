@@ -43,6 +43,7 @@ Every turn, the home-base building of each player will spawn 5 Oliners. This num
 
 The control of a building is determined by the number of Oliners present in that building. If a player has more Oliners than the opponent in a building, they control it. If both players have the same number of Oliners, the building remains or becomes neutral.
 
+There is an overall time limit of 5 minutes for the game. If the time runs out, the game ends in a draw.
 
 ### Running PyTests
 
