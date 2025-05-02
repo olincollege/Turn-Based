@@ -13,22 +13,6 @@ def get_font(size):
     """Returns a Pygame font object of the given size."""
     return pygame.font.Font(None, size)
 
-def play(screen, HEIGHT):
-    """Dummy play screen."""
-    running = True
-    while running:
-        screen.fill((100, 200, 100))
-        text = get_font(40).render("Game Screen - Press ESC to return", True, (255, 255, 255))
-        screen.blit(text, (50, HEIGHT // 2 - 20))
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                running = False
-
-        pygame.display.flip()
 
 def options(screen, HEIGHT):
     """Dummy options screen."""
