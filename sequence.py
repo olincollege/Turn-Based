@@ -1,6 +1,7 @@
 import pygame as pg
 import sys
 from game_clock import game_clock
+from openingscreen import get_font
 
 def init_game():
     pg.init()

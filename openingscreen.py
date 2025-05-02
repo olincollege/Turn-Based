@@ -14,22 +14,53 @@ def get_font(size):
     return pygame.font.Font(None, size)
 
 
-def options(screen, HEIGHT):
-    """Dummy options screen."""
+def help(screen, HEIGHT):
+    """Help screen."""
     running = True
-    while running:
-        screen.fill((100, 100, 200))
-        text = get_font(40).render("Options - Press ESC to return", True, (255, 255, 255))
-        screen.blit(text, (80, HEIGHT // 2 - 20))
+    white = (255, 255, 255)
 
+    # Define the help text as a list of lines
+    help_text = [
+        "Game Rules",
+        "The game is played on a grid representing Olin buildings. Players take turns sending Oliners between buildings. Both players will make their choices",
+        "in how and where they move their Oliners before the actions of both players occur. This simultaneous game-dynamic ensures that players have to make",
+        "predictive moves based on their opponent. The goal is to control the most buildings by the end of the game (5 minutes).",
+        "",
+        "Players can send Oliners from one building to another by selecting the source and destination buildings and specifying the number of Oliners to send.",
+        "It is only possible to send Oliners from one building to another if both buildings are connected. The game ends when all buildings are controlled",
+        "by one player or when the time runs out.",
+        "",
+        "Game Controls",
+        "- To select a building, click on it with the mouse.",
+        "- To select the number of Oliners to send, type in the number using the keyboard.",
+        "- To send Oliners, select the source building, then the destination building, and specify the number of Oliners to send.",
+        "- Press the spacebar to confirm your selection and send the Oliners.",
+    ]
+
+    while running:
+        screen.fill((0, 0, 0))  # Background color
+
+        # Render and display each line of text
+        y_offset = 50  # Start rendering text 50 pixels from the top
+        for i, line in enumerate(help_text):
+            if i in [0, 9]:  # Titles
+                font = get_font(25)  # Larger font for titles
+            else:
+                font = get_font(15)  # Smaller font for regular text
+
+            rendered_text = font.render(line, True, white)
+            screen.blit(rendered_text, (25, y_offset))  # Render text with padding
+            y_offset += 35  # Move down for the next line
+
+        # Handle events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                running = False
+                running = False  # Exit the help screen
 
-        pygame.display.flip()
+        pygame.display.flip()  # Update the display
 
 def main_menu(screen, WIDTH, HEIGHT):
     """Displays the main menu and handles button interaction."""
@@ -42,7 +73,7 @@ def main_menu(screen, WIDTH, HEIGHT):
     # Button centered on the screen
     buttons = {
         "Play": pygame.Rect((WIDTH - button_width) // 2, 100, button_width, button_height),
-        "Options": pygame.Rect((WIDTH - button_width) // 2, (HEIGHT - button_height) // 2, button_width, button_height),
+        "Help": pygame.Rect((WIDTH - button_width) // 2, (HEIGHT - button_height) // 2, button_width, button_height),
         "Quit": pygame.Rect((WIDTH - button_width) // 2, 400, button_width, button_height)
     }
 
@@ -57,8 +88,8 @@ def main_menu(screen, WIDTH, HEIGHT):
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if buttons["Play"].collidepoint(event.pos):
                     return
-                elif buttons["Options"].collidepoint(event.pos):
-                    options(screen, HEIGHT)
+                elif buttons["Help"].collidepoint(event.pos):
+                    help(screen, HEIGHT)
                 elif buttons["Quit"].collidepoint(event.pos):
                     running = False
 
