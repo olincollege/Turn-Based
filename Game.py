@@ -43,41 +43,87 @@ def main():
 
         # Player 1's turn
         model = Model()
-        model_temp = Model()
         view = View(model)
-        view_temp = View(model_temp)
         player_one = MouseController(model, view)
         player_one.player = 1
         player_two = MouseController(model, view)
         player_two.player = 2
-        view.draw()  # Draw the initial state of the game
-        pg.display.flip()  # Update the display
         running = True
+
+        display_text(
+            screen,
+            "TO MOVE: FIRST SELECT A BUILDING YOU OWN",
+            40,
+            white,
+            50,
+            HEIGHT - 550,
+        )
+        display_text(
+            screen,
+            "THEN SELECT A BUILDING YOU DON'T OWN",
+            40,
+            white,
+            50,
+            HEIGHT - 450,
+        )
+        display_text(
+            screen,
+            "THEN TYPE A NUMBER FROM 1-9",
+            40,
+            white,
+            50,
+            HEIGHT - 350,
+        )
+        display_text(
+            screen,
+            "IF YOU SEND TO THE SAME BUILDING YOU SENT FROM, YOU ONLY GET +2",
+            40,
+            white,
+            50,
+            HEIGHT - 250,
+        )
+
+        space_input(screen, WIDTH, HEIGHT, white)
+        pg.display.flip()
         while running is True:
+
+            screen.fill((0, 0, 0))
             view.draw()  # Draw the initial state of the game
             pg.display.flip()  # Update the display
             display_text(
                 screen,
-                "Player 1 Choose Your Move",
+                "Player 1 Choose Your Move (BLUE)",
                 40,
                 (255, 255, 255),
                 50,
-                HEIGHT // 2,
+                HEIGHT - 550,
             )
             pg.display.flip()
             pg.time.wait(2000)
-            player1_first_point = player_one.get_first_point()
-            print(player1_first_point)
-            player1_second_point = player_one.get_second_point(
-                player1_first_point
-            )
-            print(player1_second_point)
-            player1_number = player_one.check_number()
-            print(player1_number)
-            model.send_oliners(
-                player1_first_point, player1_second_point, player1_number
-            )
+            point_defined = False
+            while point_defined is False:
+                player1_first_point = player_one.get_first_point()
+                print(player1_first_point)
+                if player1_first_point is not None:
+                    point_defined = True
 
+            point_defined = False
+            while point_defined is False:
+                player1_second_point = player_one.get_second_point(
+                    player1_first_point
+                )
+                print(player1_second_point)
+                if player1_second_point is not None:
+                    point_defined = True
+
+            player1_number = player_one.check_number(
+                model.oliners_count[player1_first_point]
+            )
+            if player1_first_point == player1_second_point:
+                player1_number = 2
+
+            print(player1_number)
+            # WE HAVE PLAYER 1s MOVES STORED NOW
             pg.display.flip()
             space_input(screen, WIDTH, HEIGHT, white)
 
@@ -88,26 +134,86 @@ def main():
                 40,
                 (255, 255, 255),
                 50,
-                HEIGHT // 2,
+                HEIGHT - 550,
             )
             pg.display.flip()
             space_input(screen, WIDTH, HEIGHT, white)
 
             screen.fill((0, 0, 0))
-            view_temp.draw()
+            view.draw()
+            display_text(
+                screen,
+                "Player 2 Choose Your Move (RED)",
+                40,
+                (255, 255, 255),
+                50,
+                HEIGHT - 550,
+            )
+            pg.display.flip()
             pg.display.flip()
             # Player 2's turn
-            player2_first_point = player_two.get_first_point()
-            print(player2_first_point)
-            player2_second_point = player_one.get_second_point(
-                player2_first_point
+            point_defined = False
+            while point_defined is False:
+                player2_first_point = player_two.get_first_point()
+                print(player2_first_point)
+                if player2_first_point is not None:
+                    point_defined = True
+
+            point_defined = False
+            while point_defined is False:
+                player2_second_point = player_two.get_second_point(
+                    player2_first_point
+                )
+                print(player2_second_point)
+                if player2_second_point is not None:
+                    point_defined = True
+
+            player2_number = player_two.check_number(
+                model.oliners_count[player1_first_point]
             )
-            print(player2_second_point)
-            player2_number = player_two.check_number()
+            if player2_first_point == player2_second_point:
+                player2_number = 2
+
             print(player2_number)
-            model.send_oliners(
-                player2_first_point, player2_second_point, player2_number
-            )
+            # WE HAVE PLAYER 2s MOVES NOW
+            # Adresses bug if both players send to the same point
+            if player2_first_point == player2_second_point:
+                model.oliners_count[player2_first_point] += 2
+            if player1_first_point == player1_second_point:
+                model.oliners_count[player1_first_point] += 2
+            #Works if they send to the same point
+            if player1_second_point == player2_second_point:
+                if player1_number > player2_number:
+                    diff = player1_number - player2_number
+
+                    model.send_oliners(
+                        player1_first_point, player1_second_point, diff
+                    )
+                    model.oliners_count[player1_first_point] -= player2_number
+                    model.oliners_count[player2_first_point] -= player2_number
+                    # Some spaghetti code but its fine trust
+                elif player1_number < player2_number:
+                    diff = player2_number - player1_number
+                    model.send_oliners(
+                        player2_first_point,
+                        player2_second_point,
+                        diff,
+                    )
+                    model.oliners_count[player2_first_point] -= player1_number
+                    model.oliners_count[player1_first_point] -= player1_number
+                else:
+                    model.oliners_count[player1_first_point] -= player1_number
+                    model.oliners_count[player2_first_point] -= player2_number
+            else:
+                model.send_oliners(
+                    player1_first_point, player1_second_point, player1_number
+                )
+                model.send_oliners(
+                    player2_first_point, player2_second_point, player2_number
+                )
+
+            model.check_negative()
+
             space_input(screen, WIDTH, HEIGHT, white)
 
             screen.fill((0, 0, 0))
@@ -137,13 +243,6 @@ def main():
                 pg.time.wait(1000)
                 running = False
             else:
-                model_temp.send_oliners(
-                    player1_first_point, player1_second_point, player1_number
-                )
-                model_temp.send_oliners(
-                    player2_first_point, player2_second_point, player2_number
-                )
-                model_temp.add_oliners()
                 model.add_oliners()
                 pg.display.flip()
                 space_input(screen, WIDTH, HEIGHT, white)

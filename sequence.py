@@ -3,6 +3,7 @@ import sys
 from game_clock import game_clock
 from openingscreen import get_font
 
+
 def init_game():
     pg.init()
     WIDTH, HEIGHT = 800, 600
@@ -10,11 +11,18 @@ def init_game():
     pg.display.set_caption("Turn-Based Game")
     return screen, WIDTH, HEIGHT
 
+
 def display_text(screen, text, size, color, x, y):
     """Utility function to display text on the screen."""
     font = get_font(size)
     label = font.render(text, True, color)
     screen.blit(label, (x, y))
+
+
+def get_font(size):
+    """Returns a pygame font object with the given size."""
+    return pg.font.Font(None, size)
+
 
 def space_input(screen, screen_width, screen_height, white):
     """Wait for the player to press the space key while updating the game clock."""
@@ -34,7 +42,9 @@ def space_input(screen, screen_width, screen_height, white):
         # Display the "Press Spacebar" message
         font = pg.font.SysFont(None, 24)
         title_text = font.render("Press Spacebar to Continue", True, white)
-        title_rect = title_text.get_rect(center=(screen_width // 2, screen_height - 50))
+        title_rect = title_text.get_rect(
+            center=(screen_width // 2, screen_height - 50)
+        )
         screen.blit(title_text, title_rect)
 
         # Update the display
