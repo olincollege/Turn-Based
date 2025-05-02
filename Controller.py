@@ -23,7 +23,7 @@ class MouseController:
 
         return pg.mouse.get_pos()
 
-    def get_circle(self):
+    def get_circle(self, player):
         """
         Checks if the cursor is over a viable circle
 
@@ -36,10 +36,12 @@ class MouseController:
         for index, circle in enumerate(self.circle_data):
             x_dist = self.get_cursor_pos()[0] - circle[0]
             y_dist = self.get_cursor_pos()[1] - circle[1]
-            if (x_dist**2 + y_dist**2) < 900:
-                if self.owners[index] == self.player:
+            print(x_dist, y_dist, index)
+            if (x_dist**2 + y_dist**2) < 1200:
+                if self.owners[index] in player:
                     return index
-                # Else we need to display 'pick your own circle'
+                else:
+                    print("Womp")
 
     def get_number(self):
         on = True
@@ -84,24 +86,6 @@ class MouseController:
 
     def get_first_point(self):
         """
-        Gets the origin of the blips to be moved
-        """
-        return self.get_circle()
-
-    def get_second_point(self, first_point):
-        """
-        Get a second circle to move blips to. Checks if the circle is
-        adjacent to the first one.
-        """
-        second_circle = self.get_circle()
-        if second_circle in self.connections[self.get_first_point()]:
-            return second_circle
-        else:
-            raise ValueError
-        # first circle/get_first_point will be overridden in the game function
-
-    def get_click(self):
-        """
         Docstring
         """
         on = True
@@ -109,12 +93,29 @@ class MouseController:
             for event in pg.event.get():
                 if event.type == pg.MOUSEBUTTONDOWN:
                     if event.button == 1:
-                        return True
+                        return self.get_circle([self.player])
+
+    def get_second_point(self, first_point):
+        """
+        Docstring
+        """
+        circle_owner = [0, 1, 2]
+        on = True
+        while on is True:
+            for event in pg.event.get():
+                if event.type == pg.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        second_point = self.get_circle(circle_owner)
+                        print(second_point)
+                        if second_point in self.connections[first_point]:
+                            return second_point
+                        else:
+                            print("Womp Womp")
 
     def move(self):
         # Get key press - in move
         first_point = self.get_first_point()
-        second_point = self.get_second_point
+        second_point = self.get_second_point(first_point)
         number = self.check_number()
         if number > self.oliners_count[first_point]:
             print("Input not in range or not a number")

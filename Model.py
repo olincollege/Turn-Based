@@ -25,7 +25,7 @@ class Model:
         # Set who owns what point at the start. 0 is empty, 1 is player 1, etc.
         self.owners = {0: 1, 1: 0, 2: 0, 3: 2, 4: 0, 5: 0}
         # How many oliners are at each point at the start
-        self.oliners_count = [5, 5, 5, 5, 5, 5]
+        self.oliners_count = [10, 5, 5, 10, 5, 5]
         self.running = True
 
     def add_oliners(self):
@@ -60,3 +60,11 @@ class Model:
             )
             self.owners[second_point] = player
         return self.oliners_count
+
+    def check_win(self):
+        """ """
+        only_player_owned = self.owners - 0
+        if len(set(only_player_owned)) == 1:
+            return set(only_player_owned[0])
+        else:
+            return 0
