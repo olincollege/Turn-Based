@@ -15,12 +15,12 @@ class Model:
 
         # Connections (index of connected circles)
         self.connections = {
-            0: [1, 2],
-            1: [0, 2, 3, 4],
-            2: [0, 1, 3, 4],
-            3: [1, 2, 4, 5],
-            4: [1, 2, 3, 5],
-            5: [3, 4],
+            0: [0, 1, 2],
+            1: [0, 1, 2, 3, 4],
+            2: [0, 1, 2, 3, 4],
+            3: [1, 2, 3, 4, 5],
+            4: [1, 2, 3, 4, 5],
+            5: [3, 4, 5],
         }
         # Set who owns what point at the start. 0 is empty, 1 is player 1, etc.
         self.owners = {0: 1, 1: 0, 2: 0, 3: 2, 4: 0, 5: 0}
@@ -61,10 +61,27 @@ class Model:
             self.owners[second_point] = player
         return self.oliners_count
 
+    def check_negative(self):
+        """
+        Checks if there are any negative numbers at a point.
+        If so, the count is set to 0 and the owner is set to no one
+        """
+        for index, count in enumerate(self.oliners_count):
+            if count < 0:
+                self.oliners_count[index] = 0
+                self.owners[index] = 0
+
     def check_win(self):
-        """ """
-        only_player_owned = self.owners - 0
-        if len(set(only_player_owned)) == 1:
-            return set(only_player_owned[0])
+        """
+        Docstring
+        """
+        owner_in = self.owners.values()
+        if 1 not in owner_in:
+            if 2 in owner_in:
+                return 2
+            else:
+                return 0
+        elif 2 not in owner_in:
+            return 1
         else:
             return 0

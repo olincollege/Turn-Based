@@ -36,7 +36,6 @@ class MouseController:
         for index, circle in enumerate(self.circle_data):
             x_dist = self.get_cursor_pos()[0] - circle[0]
             y_dist = self.get_cursor_pos()[1] - circle[1]
-            print(x_dist, y_dist, index)
             if (x_dist**2 + y_dist**2) < 1200:
                 if self.owners[index] in player:
                     return index
@@ -67,7 +66,7 @@ class MouseController:
                     if event.key == pg.K_9:
                         return 9
 
-    def check_number(self):
+    def check_number(self, circle_max):
         """
         Get input number to move
         """
@@ -78,8 +77,8 @@ class MouseController:
                 raise ValueError
             elif number < 0:
                 raise ValueError
-            # elif number > cirle_max
-            # raise ValueError
+            elif number > circle_max:
+                return circle_max
         except ValueError:
             print("Input not in range or not a number")
         return number
@@ -111,17 +110,6 @@ class MouseController:
                             return second_point
                         else:
                             print("Womp Womp")
-
-    def move(self):
-        # Get key press - in move
-        first_point = self.get_first_point()
-        second_point = self.get_second_point(first_point)
-        number = self.check_number()
-        if number > self.oliners_count[first_point]:
-            print("Input not in range or not a number")
-            raise ValueError
-        return [first_point, second_point, number]
-
 
 # WHAT WE NEED FROM MODEL
 # The list of circle coordinates and circle sizes
