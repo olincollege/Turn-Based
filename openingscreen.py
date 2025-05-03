@@ -57,11 +57,13 @@ def help(screen, WIDTH, HEIGHT):
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                main_menu(screen, WIDTH, HEIGHT)  # Return to main menu on spacebar press
+                pygame.event.get()
+                return "main_menu"  # Return to main menu
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 running = False  # Exit the help screen
 
         pygame.display.flip()  # Update the display
+
 
 def main_menu(screen, WIDTH, HEIGHT):
     """Displays the main menu and handles button interaction.
@@ -83,21 +85,24 @@ def main_menu(screen, WIDTH, HEIGHT):
         "Quit": pygame.Rect((WIDTH - button_width) // 2, 400, button_width, button_height)
     }
 
-    running = True
-    while running:
+    pygame.event.get()  # Clear the event queue
+
+    while True:
         screen.fill((200, 200, 200))  # Fill the screen with gray
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()
+                sys.exit()
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if buttons["Play"].collidepoint(event.pos):
-                    return
+                    return "play"  # Return play signal
                 elif buttons["Help"].collidepoint(event.pos):
-                    help(screen, WIDTH, HEIGHT)
+                    return "help"  # Return help signal
                 elif buttons["Quit"].collidepoint(event.pos):
-                    running = False
+                    pygame.quit()
+                    sys.exit()
 
         for text, rect in buttons.items():
             pygame.draw.rect(screen, (0, 0, 0), rect)  # Draw button background
@@ -107,10 +112,6 @@ def main_menu(screen, WIDTH, HEIGHT):
 
         pygame.display.flip()
 
-    pygame.quit()
-    sys.exit()
 
 if __name__ == "__main__":
     screen, WIDTH, HEIGHT = init_game()  # Initialize the game
-    main_menu(screen, WIDTH, HEIGHT)  # Start the main menu
-
