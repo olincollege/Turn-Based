@@ -75,11 +75,22 @@ def main():
         )
         display_text(
             screen,
-            "IF YOU SEND TO THE SAME BUILDING YOU SENT FROM, YOU ONLY GET +2",
+            "IF YOU SEND TO THE SAME BUILDING YOU"
+            ,
             40,
             white,
             50,
             HEIGHT - 250,
+        )
+
+        display_text(
+            screen,
+            "SENT FROM, YOU ONLY GET +2" 
+            ,
+            40,
+            white,
+            50,
+            HEIGHT - 200,
         )
 
         space_input(screen, WIDTH, HEIGHT, white, clock=False)

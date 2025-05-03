@@ -1,7 +1,6 @@
 import pygame as pg
 import sys
 from game_clock import game_clock
-from openingscreen import get_font
 
 
 # Initialize Pygame and set up screen dimensions and colors

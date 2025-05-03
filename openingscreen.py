@@ -2,7 +2,7 @@ import pygame
 import sys
 from sequence import get_font, init_game
 
-def help(screen, HEIGHT):
+def help(screen, WIDTH, HEIGHT):
     """Help screen.
     Displays the game rules and controls.
     Args:
@@ -44,12 +44,20 @@ def help(screen, HEIGHT):
             rendered_text = font.render(line, True, white)
             screen.blit(rendered_text, (25, y_offset))  # Render text with padding
             y_offset += 35  # Move down for the next line
+        font = get_font(30)
+        title_text = font.render("Press Spacebar to Go Back to Main Menu", True, white)
+        title_rect = title_text.get_rect(
+            center=(WIDTH // 2, HEIGHT - 25)
+        )
+        screen.blit(title_text, title_rect)
 
         # Handle events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                main_menu(screen, WIDTH, HEIGHT)  # Return to main menu on spacebar press
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 running = False  # Exit the help screen
 
@@ -87,7 +95,7 @@ def main_menu(screen, WIDTH, HEIGHT):
                 if buttons["Play"].collidepoint(event.pos):
                     return
                 elif buttons["Help"].collidepoint(event.pos):
-                    help(screen, HEIGHT)
+                    help(screen, WIDTH, HEIGHT)
                 elif buttons["Quit"].collidepoint(event.pos):
                     running = False
 
