@@ -17,16 +17,17 @@ def help(screen, WIDTH, HEIGHT):
         "Game Rules",
         "The game is played on a grid representing Olin buildings. Players take turns sending Oliners between buildings. Both players will make their choices",
         "in how and where they move their Oliners before the actions of both players occur. This simultaneous game-dynamic ensures that players have to make",
-        "predictive moves based on their opponent. The goal is to control the most buildings by the end of the game (5 minutes).",
+        "predictive moves based on their opponent. The goal is to control the opponent's home-base while still holding control of your own before time is up(5 minutes).",
         "",
         "Players can send Oliners from one building to another by selecting the source and destination buildings and specifying the number of Oliners to send.",
-        "It is only possible to send Oliners from one building to another if both buildings are connected. The game ends when all buildings are controlled",
-        "by one player or when the time runs out.",
+        "It is only possible to send Oliners from one building to another if both buildings are connected. The game ends when one or both players capture",
+        "each other's home-base, or when the time runs out.",
+        "If the amount of Oliners for both players, in one building, is equal, then the building is captured by the player who sent the Oliners last.",
         "",
         "Game Controls",
+        "- To send Oliners, select the source building, then the destination building, and specify the number of Oliners to send.",
         "- To select a building, click on it with the mouse.",
         "- To select the number of Oliners to send, type in the number using the keyboard.",
-        "- To send Oliners, select the source building, then the destination building, and specify the number of Oliners to send.",
         "- Press the spacebar to confirm your selection and send the Oliners.",
     ]
 
@@ -34,9 +35,9 @@ def help(screen, WIDTH, HEIGHT):
         screen.fill((0, 0, 0))  # Background color
 
         # Render and display each line of text
-        y_offset = 50  # Start rendering text 50 pixels from the top
+        y_offset = 25  # Start rendering text 50 pixels from the top
         for i, line in enumerate(help_text):
-            if i in [0, 9]:  # Titles
+            if i in [0, 10]:  # Titles
                 font = get_font(25)  # Larger font for titles
             else:
                 font = get_font(15)  # Smaller font for regular text
