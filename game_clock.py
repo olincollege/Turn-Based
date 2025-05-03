@@ -19,6 +19,7 @@ def game_clock(screen):
     elapsed_time = start_time - current_time
     if elapsed_time < 0:
         elapsed_time = 0  # Prevent negative time
+        raise time_up()
     elapsed_time_ms = elapsed_time / 1000.0
 
     # Convert to minutes and seconds
@@ -44,3 +45,7 @@ def game_clock(screen):
     clock.tick(60)
 
     return elapsed_time  # Return elapsed time in seconds
+
+class time_up(Exception):
+    """Custom exception to indicate that the game time has run out."""
+    pass

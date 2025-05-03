@@ -1,21 +1,14 @@
 import pygame
 import sys
-
-# Initialize Pygame and set up screen dimensions and colors
-def init_game():
-    pygame.init()
-    WIDTH, HEIGHT = 800, 600
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("Main Menu")
-    return screen, WIDTH, HEIGHT
-
-def get_font(size):
-    """Returns a Pygame font object of the given size."""
-    return pygame.font.Font(None, size)
-
+from sequence import get_font, init_game
 
 def help(screen, HEIGHT):
-    """Help screen."""
+    """Help screen.
+    Displays the game rules and controls.
+    Args:
+        screen (pygame.Surface): The Pygame screen to draw on.
+        HEIGHT (int): The height of the screen.
+    """
     running = True
     white = (255, 255, 255)
 
@@ -63,7 +56,12 @@ def help(screen, HEIGHT):
         pygame.display.flip()  # Update the display
 
 def main_menu(screen, WIDTH, HEIGHT):
-    """Displays the main menu and handles button interaction."""
+    """Displays the main menu and handles button interaction.
+    Args:
+        screen (pygame.Surface): The Pygame screen to draw on.
+        WIDTH (int): The width of the screen.
+        HEIGHT (int): The height of the screen.
+    """
     font = get_font(50)
 
     # Button dimensions

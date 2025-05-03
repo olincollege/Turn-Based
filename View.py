@@ -6,11 +6,25 @@ import math
 class View:
     """
     View class for rendering the game.
+
+    Attributes:
+        model (Model): The game model containing game state and logic.
+        screen (pygame.Surface): The Pygame screen for rendering.
+        running (bool): Flag to indicate if the game is running.
+        circle_data (list): List of circle coordinates and sizes.
+        white (tuple): Color for the circles.
+        black (tuple): Color for the background.
+        red (tuple): Color for player 2.
+        blue (tuple): Color for player 1.
+        oliners_count (list): Count of Oliners at each circle.
+        font (pygame.font.Font): Font for rendering text.
     """
 
     def __init__(self, model):
         """
         Initialize the view with the model.
+        Args:
+            model (Model): The game model containing game state and logic.
         """
         self.model = model
         self.screen = model.screen
@@ -47,19 +61,21 @@ class View:
             else:
                 player_color = self.black
             position = list(self.circle_data[index])
-            print(position)
             self.draw_numbers(value, position, player_color)
 
     def draw_numbers(self, count, position, player_color):
         """
         Write the number of Oliners at each building
+        Args:
+            count (int): The number of Oliners at the building.
+            position (tuple): The (x, y) position to draw the text.
+            player_color (tuple): The color of the player owning the building.
         """
         font = pg.font.Font("freesansbold.ttf", 40)
         text = font.render(f"{count}", True, self.white, player_color)
         text_rect = text.get_rect()
         text_rect.center = (position[0], position[1])
         self.screen.blit(text, text_rect)
-        print(text_rect.topleft)
 
     def update(self):
         """
@@ -75,7 +91,7 @@ class View:
 
     def show_next_player(self):
         """
-        Display "Player _ is next, please move the computer
+        Display "Player _ is next, please move the computer".
         """
         x = self.model.screen_width
         y = self.model.screen_height
@@ -94,7 +110,14 @@ class View:
         text_rect.center = (x // 2, y)
 
     def calculate_edge_point(self, x1, y1, x2, y2, radius):
-        """Calculate the point on the edge of a circle closest to another point."""
+        """Calculate the point on the edge of a circle closest to another point.
+        Args:
+            x1, y1: Coordinates of the first circle's center.
+            x2, y2: Coordinates of the second circle's center.
+            radius: Radius of the first circle.
+        Returns:
+            tuple: Coordinates of the edge point on the first circle.
+        """
         angle = math.atan2(y2 - y1, x2 - x1)
         edge_x = x1 + radius * math.cos(angle)
         edge_y = y1 + radius * math.sin(angle)

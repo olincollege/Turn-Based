@@ -25,7 +25,7 @@ python3 Game.py
 ```
 ### Game Controls
 
-Instructions for the game are displayed on the start screen(maybe a help section?!?)
+Instructions for the game are displayed on the start screen help section, but here is a quick summary of the controls:
 * Use a mouse or your trackpad to select which Olin building you want to send Oliners to and from.
 * Use any combination of number keys to select the number of Oliners you want to send.
 * Use the space bar to confirm your selection and send the Oliners.

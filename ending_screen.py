@@ -1,15 +1,26 @@
 import pygame
 
 def draw_end_screen(screen, screen_width, screen_height, black, white, winner):
-    """Draw the end screen."""
+    """Draw the end screen.
+    
+    Args:
+        screen: The pygame screen to draw on.
+        screen_width: The width of the screen.
+        screen_height: The height of the screen.
+        black: The color black for the background.
+        white: The color white for the text.
+        winner: The index of the winning player (1 or 2), or 3 for a draw.
+    """
     screen.fill(black)
 
     font = pygame.font.SysFont(None, 48)
     title_text = font.render("Game Over! Press Q to exit or R to play again.", True, white)
-    if not winner.strip():
-        prompt_text = font.render("Time Ran Out!", True, white)
+    if winner == 3:
+        prompt_text = font.render("Draw! Both players captured each other's bases.", True, white)
+    elif winner == 0:
+        prompt_text = font.render("Draw! Time ran out!", True, white)
     else:
-        prompt_text = font.render(f"Winner: {winner}", True, white)
+        prompt_text = font.render(f"Winner: Player {winner}", True, white)
 
     title_rect = title_text.get_rect(center=(screen_width // 2, screen_height // 2 - 40))
     prompt_rect = prompt_text.get_rect(center=(screen_width // 2, screen_height // 2 + 40))
@@ -18,3 +29,5 @@ def draw_end_screen(screen, screen_width, screen_height, black, white, winner):
     screen.blit(prompt_text, prompt_rect)
 
     pygame.display.flip()
+
+    
