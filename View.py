@@ -1,11 +1,12 @@
-import pygame as pg
-from Model import Model
+"""view class for rendering the game using Pygame."""
+
 import math
+import pygame as pg
 
 
 class View:
     """
-    View class for rendering the game.
+    view class for rendering the game.
 
     Attributes:
         model (Model): The game model containing game state and logic.
@@ -93,8 +94,8 @@ class View:
         """
         Display "Player _ is next, please move the computer".
         """
-        x = self.model.screen_width
-        y = self.model.screen_height
+        x_val = self.model.screen_width
+        y_val = self.model.screen_height
         black = (0, 0, 0)
         white = (225, 225, 225)
         font = pg.font.Font("freesansbold.ttf", 32)
@@ -107,9 +108,9 @@ class View:
             white,
         )
         text_rect = text.get_rect()
-        text_rect.center = (x // 2, y)
+        text_rect.center = (x_val // 2, y_val)
 
-    def calculate_edge_point(self, x1, y1, x2, y2, radius):
+    def calculate_edge_point(self, x_1, y_1, x_2, y_2):
         """Calculate the point on the edge of a circle closest to another point.
         Args:
             x1, y1: Coordinates of the first circle's center.
@@ -118,30 +119,30 @@ class View:
         Returns:
             tuple: Coordinates of the edge point on the first circle.
         """
-        angle = math.atan2(y2 - y1, x2 - x1)
-        edge_x = x1 + radius * math.cos(angle)
-        edge_y = y1 + radius * math.sin(angle)
+        angle = math.atan2(y_2 - y_1, x_2 - x_1)
+        edge_x = x_1 + 30 * math.cos(angle)
+        edge_y = y_1 + 30 * math.sin(angle)
         return edge_x, edge_y
 
     def draw_circles(self):
         """Draw circles with only an outline."""
-        for x, y, radius in self.circle_data:
-            pg.draw.circle(self.screen, self.white, (x, y), radius, 1)
+        for x_val, y_val, radius in self.circle_data:
+            pg.draw.circle(self.screen, self.white, (x_val, y_val), radius, 1)
 
     def draw_connections(self):
         """Draw connections between circles."""
         for circle_index, connected_indices in self.model.connections.items():
             for connected_index in connected_indices:
                 # Get coordinates and radii of connected circles
-                start_x, start_y, start_radius = self.circle_data[circle_index]
-                end_x, end_y, end_radius = self.circle_data[connected_index]
+                start_x, start_y = self.circle_data[circle_index][:-1]
+                end_x, end_y = self.circle_data[connected_index][:-1]
 
                 # Calculate edge points
                 start_edge = self.calculate_edge_point(
-                    start_x, start_y, end_x, end_y, start_radius
+                    start_x, start_y, end_x, end_y
                 )
                 end_edge = self.calculate_edge_point(
-                    end_x, end_y, start_x, start_y, end_radius
+                    end_x, end_y, start_x, start_y
                 )
 
                 # Draw line between edge points

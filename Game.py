@@ -1,20 +1,18 @@
 import os
 import pygame as pg
 import sys
-from openingscreen import main_menu, help
+from openingscreen import main_menu, help_screen
 from ending_screen import draw_end_screen
-from game_clock import (game_clock, time_up)
+from game_clock import (game_clock, TimeUp)
 from sequence import (
     display_text,
     init_game,
     space_input,
 )
 from Controller import MouseController
-from Model import Model
-from View import View
+from model import Model
+from view import View
 
-# # Initialize Pygame
-# pg.init()
 
 # Screen setup
 screen_width = 800
@@ -40,7 +38,7 @@ def main():
             current_screen = main_menu(screen, WIDTH, HEIGHT)
 
         if current_screen == "help":
-            current_screen = help(screen, WIDTH, HEIGHT)
+            current_screen = help_screen(screen, WIDTH, HEIGHT)
 
         elif current_screen == "play":
 
@@ -48,18 +46,17 @@ def main():
             blue = (0, 225, 0)
             red = (225, 0, 0)
 
-            model = Model()
-            view = View(model)
-            player_one = MouseController(model, view)
+            game_model = Model()
+            game_view = View(game_model)
+            player_one = MouseController(game_model, game_view)
             player_one.player = 1
-            player_two = MouseController(model, view)
+            player_two = MouseController(game_model, game_view)
             player_two.player = 2
             running = True
 
             display_text(
                 screen,
                 "TO MOVE: FIRST SELECT A BUILDING YOU OWN",
-                40,
                 white,
                 50,
                 HEIGHT - 550,
@@ -67,7 +64,6 @@ def main():
             display_text(
                 screen,
                 "THEN SELECT ANOTHER BUILDING",
-                40,
                 white,
                 50,
                 HEIGHT - 450,
@@ -75,16 +71,13 @@ def main():
             display_text(
                 screen,
                 "THEN TYPE A NUMBER FROM 1-9",
-                40,
                 white,
                 50,
                 HEIGHT - 350,
             )
             display_text(
                 screen,
-                "IF YOU SEND TO THE SAME BUILDING YOU"
-                ,
-                40,
+                "IF YOU SEND TO THE SAME BUILDING YOU",
                 white,
                 50,
                 HEIGHT - 250,
@@ -92,9 +85,7 @@ def main():
 
             display_text(
                 screen,
-                "SENT FROM, YOU ONLY GET +2" 
-                ,
-                40,
+                "SENT FROM, YOU ONLY GET +2",
                 white,
                 50,
                 HEIGHT - 200,
@@ -107,12 +98,11 @@ def main():
                     pg.event.pump()
 
                     screen.fill((0, 0, 0))
-                    view.draw()  # Draw the initial state of the game
+                    game_view.draw()  # Draw the initial state of the game
                     game_clock(screen)
                     display_text(
                         screen,
                         "Player 1 Choose Your Move (BLUE)",
-                        40,
                         (255, 255, 255),
                         50,
                         HEIGHT - 550,
@@ -132,7 +122,7 @@ def main():
                             point_defined = True
 
                     player1_number = player_one.check_number(
-                        model.oliners_count[player1_first_point], screen
+                        game_model.oliners_count[player1_first_point], screen
                     )
                     if player1_first_point == player1_second_point:
                         player1_number = 2
@@ -145,7 +135,6 @@ def main():
                     display_text(
                         screen,
                         "Pass the device to Player 2",
-                        40,
                         (255, 255, 255),
                         50,
                         HEIGHT - 550,
@@ -153,12 +142,11 @@ def main():
                     space_input(screen, WIDTH, HEIGHT, white, clock)
 
                     screen.fill((0, 0, 0))
-                    view.draw()
+                    game_view.draw()
                     game_clock(screen)
                     display_text(
                         screen,
                         "Player 2 Choose Your Move (RED)",
-                        40,
                         (255, 255, 255),
                         50,
                         HEIGHT - 550,
@@ -179,7 +167,7 @@ def main():
                             point_defined = True
 
                     player2_number = player_two.check_number(
-                        model.oliners_count[player1_first_point], screen
+                        game_model.oliners_count[player1_first_point], screen
                     )
                     if player2_first_point == player2_second_point:
                         player2_number = 2
@@ -187,41 +175,41 @@ def main():
                     # WE HAVE PLAYER 2s MOVES NOW
                     # Addresses bug if both players send to the same point
                     if player2_first_point == player2_second_point:
-                        model.oliners_count[player2_first_point] += 2
+                        game_model.oliners_count[player2_first_point] += 2
                     if player1_first_point == player1_second_point:
-                        model.oliners_count[player1_first_point] += 2
+                        game_model.oliners_count[player1_first_point] += 2
                     #Works if they send to the same point
                     if player1_second_point == player2_second_point:
                         if player1_number > player2_number:
                             diff = player1_number - player2_number
 
-                            model.send_oliners(
+                            game_model.send_oliners(
                                 player1_first_point, player1_second_point, diff
                             )
-                            model.oliners_count[player1_first_point] -= player2_number
-                            model.oliners_count[player2_first_point] -= player2_number
+                            game_model.oliners_count[player1_first_point] -= player2_number
+                            game_model.oliners_count[player2_first_point] -= player2_number
                             # Some spaghetti code but its fine trust
                         elif player1_number < player2_number:
                             diff = player2_number - player1_number
-                            model.send_oliners(
+                            game_model.send_oliners(
                                 player2_first_point,
                                 player2_second_point,
                                 diff,
                             )
-                            model.oliners_count[player2_first_point] -= player1_number
-                            model.oliners_count[player1_first_point] -= player1_number
+                            game_model.oliners_count[player2_first_point] -= player1_number
+                            game_model.oliners_count[player1_first_point] -= player1_number
                         else:
-                            model.oliners_count[player1_first_point] -= player1_number
-                            model.oliners_count[player2_first_point] -= player2_number
+                            game_model.oliners_count[player1_first_point] -= player1_number
+                            game_model.oliners_count[player2_first_point] -= player2_number
                     else:
-                        model.send_oliners(
+                        game_model.send_oliners(
                             player1_first_point, player1_second_point, player1_number
                         )
-                        model.send_oliners(
+                        game_model.send_oliners(
                             player2_first_point, player2_second_point, player2_number
                         )
 
-                    model.check_negative()
+                    game_model.check_negative()
 
                     space_input(screen, WIDTH, HEIGHT, white, clock)
 
@@ -230,7 +218,6 @@ def main():
                     display_text(
                         screen,
                         "Revealing Moves...",
-                        40,
                         (255, 255, 255),
                         WIDTH // 2 - 100,
                         25,
@@ -238,18 +225,18 @@ def main():
                     pg.time.wait(1000)  # Wait for 1 second before revealing moves
 
                     # Reveal both moves
-                    view.draw()
-                    winner = model.check_win()
+                    game_view.draw()
+                    winner = game_model.check_win()
                     if winner > 0:
                         time = True
                         clock = False
                         running = False
                     else:
-                        model.add_oliners()
+                        game_model.add_oliners()
                         pg.display.flip()
                         space_input(screen, WIDTH, HEIGHT, white, clock)
                         screen.fill((0, 0, 0))
-            except time_up:
+            except TimeUp:
                 clock = False
                 running = False
                 time = False

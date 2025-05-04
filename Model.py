@@ -1,8 +1,10 @@
+"""The Model module for a network map game."""
+
 import pygame
-import math
 
 
 class Model:
+    """The Model class represents the game model for a network map game."""
     def __init__(self):
         """
         Initializes the game model with necessary attributes and settings.
@@ -53,7 +55,7 @@ class Model:
         Returns:
             list(int): The updated count of Oliners at each point.
         """
-        for index in range(len(self.oliners_count)):
+        for index, _ in enumerate(self.oliners_count):
             if self.owners[index] > 0:
                 self.oliners_count[index] += 1
         return self.oliners_count
@@ -102,17 +104,17 @@ class Model:
         """
         Checks if one player has won the game.
         Returns:
-            int: 0 if no one has won, 1 if player 1 has won, 2 if player 2 has won
+            int: 0 if no one has won, 
+            1 if player 1 has won, 
+            2 if player 2 has won
         """
         owner_in = list(self.owners.values())
 
         if 1 != owner_in[0] or 2 != owner_in[5]:
             if 2 == owner_in[0] and 1 == owner_in[5]:
                 return 3
-            elif 1 == owner_in[5]:
+            if 1 == owner_in[5]:
                 return 1
-            elif 2 == owner_in[0]:
+            if 2 == owner_in[0]:
                 return 2
-        else:
-            return 0
-        
+        return 0
