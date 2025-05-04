@@ -1,13 +1,15 @@
-import pygame
-import sys
-from sequence import get_font, init_game
+"""This module contains the main menu and help screen for the game."""
 
-def help(screen, WIDTH, HEIGHT):
+import sys
+import pygame
+from sequence import get_font
+
+def help_screen(screen, width, height):
     """Help screen.
     Displays the game rules and controls.
     Args:
         screen (pygame.Surface): The Pygame screen to draw on.
-        HEIGHT (int): The height of the screen.
+        height (int): The height of the screen.
     """
     running = True
     white = (255, 255, 255)
@@ -48,7 +50,7 @@ def help(screen, WIDTH, HEIGHT):
         font = get_font(30)
         title_text = font.render("Press Spacebar to Go Back to Main Menu", True, white)
         title_rect = title_text.get_rect(
-            center=(WIDTH // 2, HEIGHT - 25)
+            center=(width // 2, height - 25)
         )
         screen.blit(title_text, title_rect)
 
@@ -66,12 +68,12 @@ def help(screen, WIDTH, HEIGHT):
         pygame.display.flip()  # Update the display
 
 
-def main_menu(screen, WIDTH, HEIGHT):
+def main_menu(screen, width, height):
     """Displays the main menu and handles button interaction.
     Args:
         screen (pygame.Surface): The Pygame screen to draw on.
-        WIDTH (int): The width of the screen.
-        HEIGHT (int): The height of the screen.
+        width (int): The width of the screen.
+        height (int): The height of the screen.
     """
     font = get_font(50)
 
@@ -81,9 +83,9 @@ def main_menu(screen, WIDTH, HEIGHT):
 
     # Button centered on the screen
     buttons = {
-        "Play": pygame.Rect((WIDTH - button_width) // 2, 100, button_width, button_height),
-        "Help": pygame.Rect((WIDTH - button_width) // 2, (HEIGHT - button_height) // 2, button_width, button_height),
-        "Quit": pygame.Rect((WIDTH - button_width) // 2, 400, button_width, button_height)
+        "Play": pygame.Rect((width - button_width) // 2, 100, button_width, button_height),
+        "Help": pygame.Rect((width - button_width) // 2, (height - button_height) // 2, button_width, button_height),
+        "Quit": pygame.Rect((width - button_width) // 2, 400, button_width, button_height)
     }
 
     pygame.event.get()  # Clear the event queue
@@ -99,9 +101,9 @@ def main_menu(screen, WIDTH, HEIGHT):
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if buttons["Play"].collidepoint(event.pos):
                     return "play"  # Return play signal
-                elif buttons["Help"].collidepoint(event.pos):
+                if buttons["Help"].collidepoint(event.pos):
                     return "help"  # Return help signal
-                elif buttons["Quit"].collidepoint(event.pos):
+                if buttons["Quit"].collidepoint(event.pos):
                     pygame.quit()
                     sys.exit()
 
@@ -112,7 +114,3 @@ def main_menu(screen, WIDTH, HEIGHT):
             screen.blit(label, label_rect)  # Draw the text on the button
 
         pygame.display.flip()
-
-
-if __name__ == "__main__":
-    screen, WIDTH, HEIGHT = init_game()  # Initialize the game

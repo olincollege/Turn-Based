@@ -1,3 +1,5 @@
+"""The Overall Game Clock Module"""
+
 import pygame as pg
 
 def game_clock(screen):
@@ -19,17 +21,17 @@ def game_clock(screen):
     elapsed_time = start_time - current_time
     if elapsed_time < 0:
         elapsed_time = 0  # Prevent negative time
-        raise time_up()
+        raise TimeUp()
     elapsed_time_ms = elapsed_time / 1000.0
 
     # Convert to minutes and seconds
     minutes = int(elapsed_time_ms / 60)
     seconds = int(elapsed_time_ms % 60)
-    time_string = "{:02d}:{:02d}".format(minutes, seconds)
+    time_string = f"{minutes}:{seconds}"  # Format as MM:SS
 
     # Clear the clock area by drawing a background rectangle
-    clock_background = pg.Rect(0, 0, 100, 40)  # Adjust width and height as needed
-    pg.draw.rect(screen, (0, 0, 0), clock_background)  # Black background to clear previous text
+    clock_background = pg.Rect(0, 0, 100, 40)
+    pg.draw.rect(screen, (0, 0, 0), clock_background)
 
     # Render the timer text
     time_text = font.render(time_string, True, (255, 255, 255))
@@ -46,6 +48,5 @@ def game_clock(screen):
 
     return elapsed_time  # Return elapsed time in seconds
 
-class time_up(Exception):
+class TimeUp(Exception):
     """Custom exception to indicate that the game time has run out."""
-    pass

@@ -1,31 +1,34 @@
-import pygame as pg
-import sys
-from game_clock import game_clock
+"""Main menu for the game, displaying the title and instructions.
+This module initializes Pygame, sets up the main menu screen,
+and waits for the player to press the space key to continue"""
 
+import sys
+import pygame as pg
+from game_clock import game_clock
 
 # Initialize Pygame and set up screen dimensions and colors
 def init_game():
     """Initializes Pygame and sets up the game screen."""
     pg.init()
-    WIDTH, HEIGHT = 800, 600
-    screen = pg.display.set_mode((WIDTH, HEIGHT))
+    width, height = 800, 600
+    screen = pg.display.set_mode((width, height))
     pg.display.set_caption("Main Menu")
-    return screen, WIDTH, HEIGHT
+    return screen, width, height
 
 
-def display_text(screen, text, size, color, x, y):
+def display_text(screen, text, color, x_val, y_val):
     """Utility function to display text on the screen.
     Args:
         screen (pygame.Surface): The Pygame screen to draw on.
         text (str): The text to display.
         size (int): The font size.
         color (tuple): The color of the text (R, G, B).
-        x (int): The x-coordinate for the text position.
-        y (int): The y-coordinate for the text position.
+        x_val (int): The x-coordinate for the text position.
+        y_val (int): The y-coordinate for the text position.
     """
-    font = get_font(size)
+    font = get_font(40)
     label = font.render(text, True, color)
-    screen.blit(label, (x, y))
+    screen.blit(label, (x_val, y_val))
     pg.display.flip()
 
 def get_font(size):

@@ -1,7 +1,11 @@
+"""End screen module for a game using Pygame."""
+
 import pygame
 
 def draw_end_screen(screen, screen_width, screen_height, black, white, winner):
     """Draw the end screen.
+    This function displays the end screen with a message indicating the game result.
+    It shows the winner or if the game ended in a draw, and prompts the user to exit or play again.
     
     Args:
         screen: The pygame screen to draw on.
@@ -29,5 +33,3 @@ def draw_end_screen(screen, screen_width, screen_height, black, white, winner):
     screen.blit(prompt_text, prompt_rect)
 
     pygame.display.flip()
-
-    
