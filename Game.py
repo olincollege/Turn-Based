@@ -1,50 +1,34 @@
-import os
-import pygame as pg
+""" Main game file that initializes the game, handles the main loop, and manages game states."""
+
 import sys
+import pygame as pg
 from openingscreen import main_menu, help_screen
 from ending_screen import draw_end_screen
-from game_clock import (game_clock, TimeUp)
-from sequence import (
-    display_text,
-    init_game,
-    space_input,
-)
-from Controller import MouseController
+from game_clock import game_clock, TimeUp
+from sequence import display_text, init_game, space_input
+from controller import MouseController
 from model import Model
 from view import View
-
-
-# Screen setup
-screen_width = 800
-screen_height = 600
-screen = pg.display.set_mode((screen_width, screen_height))
-pg.display.set_caption("Game")
-
-black = (0, 0, 0)
-white = (255, 255, 255)
-
 
 def main():
     """
     Main function to run the game.
     """
-    screen, WIDTH, HEIGHT = init_game()  # Initialize the game
+    screen, width, height = init_game()  # Initialize the game
+    black = (0, 0, 0)
+    white = (255, 255, 255)
 
     game_running = True
     while game_running:
 
         current_screen = "main_menu"
         while current_screen == "main_menu":
-            current_screen = main_menu(screen, WIDTH, HEIGHT)
-
+            current_screen = main_menu(screen, width, height)
         if current_screen == "help":
-            current_screen = help_screen(screen, WIDTH, HEIGHT)
-
+            current_screen = help_screen(screen, width, height)
         elif current_screen == "play":
 
             screen.fill((0, 0, 0))
-            blue = (0, 225, 0)
-            red = (225, 0, 0)
 
             game_model = Model()
             game_view = View(game_model)
@@ -59,28 +43,28 @@ def main():
                 "TO MOVE: FIRST SELECT A BUILDING YOU OWN",
                 white,
                 50,
-                HEIGHT - 550,
+                height - 550,
             )
             display_text(
                 screen,
                 "THEN SELECT ANOTHER BUILDING",
                 white,
                 50,
-                HEIGHT - 450,
+                height - 450,
             )
             display_text(
                 screen,
                 "THEN TYPE A NUMBER FROM 1-9",
                 white,
                 50,
-                HEIGHT - 350,
+                height - 350,
             )
             display_text(
                 screen,
                 "IF YOU SEND TO THE SAME BUILDING YOU",
                 white,
                 50,
-                HEIGHT - 250,
+                height - 250,
             )
 
             display_text(
@@ -88,10 +72,10 @@ def main():
                 "SENT FROM, YOU ONLY GET +2",
                 white,
                 50,
-                HEIGHT - 200,
+                height - 200,
             )
 
-            space_input(screen, WIDTH, HEIGHT, white, clock=False)
+            space_input(screen, width, height, white, clock=False)
             try:
                 clock = True
                 while running:
@@ -104,42 +88,42 @@ def main():
                         screen,
                         "Player 1 Choose Your Move (BLUE)",
                         (255, 255, 255),
-                        50,
-                        HEIGHT - 550,
+                        width // 2 - 225,
+                        25,
                     )
                     point_defined = False
                     while point_defined is False:
-                        player1_first_point = player_one.get_first_point(screen)
+                        player1_first_point = player_one.get_first_point()
                         if player1_first_point is not None:
                             point_defined = True
 
                     point_defined = False
                     while point_defined is False:
                         player1_second_point = player_one.get_second_point(
-                            player1_first_point, screen
+                            player1_first_point
                         )
                         if player1_second_point is not None:
                             point_defined = True
 
                     player1_number = player_one.check_number(
-                        game_model.oliners_count[player1_first_point], screen
+                        game_model.oliners_count[player1_first_point]
                     )
                     if player1_first_point == player1_second_point:
                         player1_number = 2
 
                     # WE HAVE PLAYER 1s MOVES STORED NOW
-                    space_input(screen, WIDTH, HEIGHT, white, clock)
+                    space_input(screen, width, height, white, clock)
 
                     screen.fill((0, 0, 0))
                     game_clock(screen)
                     display_text(
                         screen,
                         "Pass the device to Player 2",
-                        (255, 255, 255),
-                        50,
-                        HEIGHT - 550,
+                        white,
+                        width // 2 - 175,
+                        25,
                     )
-                    space_input(screen, WIDTH, HEIGHT, white, clock)
+                    space_input(screen, width, height, white, clock)
 
                     screen.fill((0, 0, 0))
                     game_view.draw()
@@ -147,27 +131,27 @@ def main():
                     display_text(
                         screen,
                         "Player 2 Choose Your Move (RED)",
-                        (255, 255, 255),
-                        50,
-                        HEIGHT - 550,
+                        white,
+                        width // 2 - 225,
+                        25,
                     )
                     # Player 2's turn
                     point_defined = False
                     while point_defined is False:
-                        player2_first_point = player_two.get_first_point(screen)
+                        player2_first_point = player_two.get_first_point()
                         if player2_first_point is not None:
                             point_defined = True
 
                     point_defined = False
                     while point_defined is False:
                         player2_second_point = player_two.get_second_point(
-                            player2_first_point, screen
+                            player2_first_point
                         )
                         if player2_second_point is not None:
                             point_defined = True
 
                     player2_number = player_two.check_number(
-                        game_model.oliners_count[player1_first_point], screen
+                        game_model.oliners_count[player1_first_point]
                     )
                     if player2_first_point == player2_second_point:
                         player2_number = 2
@@ -211,15 +195,15 @@ def main():
 
                     game_model.check_negative()
 
-                    space_input(screen, WIDTH, HEIGHT, white, clock)
+                    space_input(screen, width, height, white, clock)
 
                     screen.fill((0, 0, 0))
                     game_clock(screen)
                     display_text(
                         screen,
                         "Revealing Moves...",
-                        (255, 255, 255),
-                        WIDTH // 2 - 100,
+                        white,
+                        width // 2 - 125,
                         25,
                     )
                     pg.time.wait(1000)  # Wait for 1 second before revealing moves
@@ -234,7 +218,7 @@ def main():
                     else:
                         game_model.add_oliners()
                         pg.display.flip()
-                        space_input(screen, WIDTH, HEIGHT, white, clock)
+                        space_input(screen, width, height, white, clock)
                         screen.fill((0, 0, 0))
             except TimeUp:
                 clock = False
@@ -243,15 +227,14 @@ def main():
             finally:
                 # Ensure winner, time and clock are always defined
                 if 'winner' not in locals():
-                    winner = 0   
+                    winner = 0
 
+            space_input(screen, width, height, white, clock)
 
-            space_input(screen, WIDTH, HEIGHT, white, clock)
-
-            if time == False:
-                draw_end_screen(screen, WIDTH, HEIGHT, black, white, 0)
+            if time is False:
+                draw_end_screen(screen, width, width, black, white, 0)
             else:
-                draw_end_screen(screen, WIDTH, HEIGHT, black, white, winner)
+                draw_end_screen(screen, width, width, black, white, winner)
             pg.time.wait(1000)
 
             waiting_for_input = True

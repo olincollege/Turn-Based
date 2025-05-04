@@ -1,8 +1,7 @@
-import os
-import pygame as pg
-from abc import ABC, abstractmethod
+"""The MouseController and KeyController classes handle user input for a turn-based game."""
+
 import sys
-from game_clock import game_clock
+import pygame as pg
 
 
 class MouseController:
@@ -70,13 +69,11 @@ class MouseController:
     def get_number(self):
         """
         Get a number input from the player. Returns None if no input is detected.
-
         """
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
-    
             # Handle key press events
             if event.type == pg.KEYDOWN:
                 if pg.K_1 <= event.key <= pg.K_9:  # Check for keys 1-9
@@ -112,17 +109,14 @@ class MouseController:
         """
         if not self.run_game:
             return 0  # Return a default value for testing
-
-        on = True
-        while on:
+        while True:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     pg.quit()
-                    sys.exit()          
+                    sys.exit()
                 if event.type == pg.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         return self.get_circle([self.player])
-            # game_clock(screen)  # Call game clock only if running the game
 
     def get_second_point(self, first_point):
         """
@@ -134,10 +128,8 @@ class MouseController:
         """
         if not self.run_game:
             return 1  # Return a default value for testing
-
         circle_owner = [0, 1, 2]
-        on = True
-        while on:
+        while True:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     pg.quit()
@@ -160,7 +152,6 @@ class KeyController:
     through keyboard events. The controller interacts with the model and view to
     facilitate the game logic and rendering.
     """
-
     def __init__(self):
         self.owners = []  # Initialize owners as an empty list
 
@@ -229,7 +220,6 @@ class KeyController:
         second_circle = self.get_circle()
         if second_circle in connections[first_point]:
             return second_circle
-        else:
-            raise ValueError("Selected circle is not connected to the first point")
+        raise ValueError("Selected circle is not connected to the first point")
         # first circle/get_first_point will be overridden with in the game
         # function with what we want
