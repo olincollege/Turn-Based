@@ -38,8 +38,8 @@ class MouseController:
         self.owners = model.owners
         self.player = 0
         self.run_game = run_game
-        self.pop_sound = pg.mixer.Sound("Pop.mp3")
-        self.select_sound = pg.mixer.Sound("Correct.mp3")
+        self.pop_sound = pg.mixer.Sound("Sounds/Pop.mp3")
+        self.select_sound = pg.mixer.Sound("Sounds/Correct.mp3")
 
     def get_cursor_pos(self):
         """
