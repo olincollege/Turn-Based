@@ -37,7 +37,9 @@ class MouseController:
         self.oliners_count = model.oliners_count
         self.owners = model.owners
         self.player = 0
-        self.run_game = run_game  # Flag to control game execution
+        self.run_game = run_game
+        self.pop_sound = pg.mixer.Sound("Pop.mp3")
+        self.select_sound = pg.mixer.Sound("Correct.mp3")
 
     def get_cursor_pos(self):
         """
@@ -63,6 +65,7 @@ class MouseController:
             y_dist = cursor_pos[1] - circle[1]
             if (x_dist**2 + y_dist**2) < 1200:  # Adjust the distance threshold as needed
                 if self.owners[index] in player:
+                    self.pop_sound.play()
                     return index
         return None  # Return None if no valid circle is found
 
@@ -77,6 +80,7 @@ class MouseController:
             # Handle key press events
             if event.type == pg.KEYDOWN:
                 if pg.K_1 <= event.key <= pg.K_9:  # Check for keys 1-9
+                    self.select_sound.play()
                     return event.key - pg.K_0  # Return the number pressed
         return None  # No input detected
 

@@ -10,6 +10,7 @@ from game_clock import game_clock
 def init_game():
     """Initializes Pygame and sets up the game screen."""
     pg.init()
+    pg.mixer.init()
     width, height = 800, 600
     screen = pg.display.set_mode((width, height))
     pg.display.set_caption("Main Menu")
