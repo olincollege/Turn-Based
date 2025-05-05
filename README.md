@@ -1,4 +1,4 @@
-# (*Insert Game Name*) - Turn-Based Game
+# Capture Olin - Turn-Based Game
 
 This is a pygame implementation of a two-player turn-based game using the Model-Controller-View framework. The game is designed to be played on a single computer, with each player taking turns to make their moves.
 
@@ -14,6 +14,11 @@ You can install the prerequisites using pip:
 
 ```bash
 pip install pygame
+```
+Clone the repository to your local machine:
+
+```bash
+git clone https://github.com/olincollege/Turn-Based
 ```
 
 ### Running the Game
