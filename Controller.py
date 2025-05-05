@@ -134,7 +134,7 @@ class MouseController:
             int: The index of the second circle that was clicked on
         """
         if not self.run_game:
-            return 1  # Return a default value for testing
+           return 1  # Return a default value for testing
         circle_owner = [0, 1, 2]
         while True:
             for event in pg.event.get():
