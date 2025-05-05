@@ -70,7 +70,7 @@ class MouseController:
                     return index
         return None  # Return None if no valid circle is found
 
-    def get_number(self, screen):
+    def get_number(self, screen, game_time):
         """
         Get a number input from the player. Returns None if no input is detected.
         """
@@ -83,10 +83,10 @@ class MouseController:
                 if pg.K_1 <= event.key <= pg.K_9:  # Check for keys 1-9
                     self.select_sound.play()
                     return event.key - pg.K_0  # Return the number pressed
-        game_clock(screen)  # Update the game clock
+        game_clock(screen, game_time)  # Update the game clock
         return None  # No input detected
 
-    def check_number(self, circle_max, screen):
+    def check_number(self, circle_max, screen, game_time):
         """
         Get input number to move
         Args:
@@ -96,7 +96,7 @@ class MouseController:
         """
         number = None
         while number is None:
-            number = self.get_number(screen)
+            number = self.get_number(screen, game_time)
             if number is not None:
                 try:
                     if number < 0 or number > circle_max:
@@ -106,7 +106,7 @@ class MouseController:
                     number = None  # Reset number to None to continue the loop
         return number
 
-    def get_first_point(self, screen):
+    def get_first_point(self, screen, game_time):
         """
         Gets the origin of the blips to be moved. Waits for a mouse click
         and returns the index of the circle that was clicked on.
@@ -123,9 +123,9 @@ class MouseController:
                 if event.type == pg.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         return self.get_circle([self.player])
-            game_clock(screen)
+            game_clock(screen, game_time)
 
-    def get_second_point(self, first_point, screen):
+    def get_second_point(self, first_point, screen, game_time):
         """
         Draws the second point selection screen and waits for a mouse click
         Args:
@@ -146,7 +146,7 @@ class MouseController:
                         second_point = self.get_circle(circle_owner)
                         if second_point in self.connections[first_point]:
                             return second_point
-            game_clock(screen)
+            game_clock(screen, game_time)
 
 # WHAT WE NEED FROM MODEL
 # The list of circle coordinates and circle sizes

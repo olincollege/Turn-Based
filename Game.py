@@ -2,7 +2,7 @@
 
 import sys
 import pygame as pg
-from openingscreen import main_menu, help_screen
+from opening_screen import main_menu, help_screen
 from ending_screen import draw_end_screen
 from game_clock import game_clock, TimeUp
 from sequence import display_text, init_game, space_input
@@ -24,7 +24,7 @@ def main():
 
         current_screen = "main_menu"
         while current_screen == "main_menu":
-            current_screen = main_menu(screen, width, height)
+            current_screen = main_menu(screen, width, height, test_mode=False)
         if current_screen == "help":
             current_screen = help_screen(screen, width, height)
         elif current_screen == "play":
@@ -41,7 +41,8 @@ def main():
 
             mini_help(screen, height, white)  # Display the mini help screen
 
-            space_input(screen, width, height, white, clock=False)
+            space_input(screen, width, height, white, False, None)
+            game_time = pg.time.get_ticks()  # Get the current time in milliseconds
             try:
                 clock = True
                 while running:
@@ -49,7 +50,7 @@ def main():
 
                     screen.fill((0, 0, 0))
                     game_view.draw()  # Draw the initial state of the game
-                    game_clock(screen)
+                    game_clock(screen, game_time)
                     display_text(
                         screen,
                         "Player 1 Choose Your Move (BLUE)",
@@ -59,29 +60,29 @@ def main():
                     )
                     point_defined = False
                     while point_defined is False:
-                        player1_first_point = player_one.get_first_point(screen)
-                        if player1_first_point is not None:
+                        player1_first_point = player_one.get_first_point(screen, game_time)
+                        if player1_first_point is not game_time:
                             point_defined = True
 
                     point_defined = False
                     while point_defined is False:
                         player1_second_point = player_one.get_second_point(
-                            player1_first_point, screen
+                            player1_first_point, screen, game_time
                         )
-                        if player1_second_point is not None:
+                        if player1_second_point is not game_time:
                             point_defined = True
 
                     player1_number = player_one.check_number(
-                        game_model.oliners_count[player1_first_point], screen
+                        game_model.oliners_count[player1_first_point], screen, game_time
                     )
                     if player1_first_point == player1_second_point:
                         player1_number = 2
 
                     # WE HAVE PLAYER 1s MOVES STORED NOW
-                    space_input(screen, width, height, white, clock)
+                    space_input(screen, width, height, white, clock, game_time)
 
                     screen.fill((0, 0, 0))
-                    game_clock(screen)
+                    game_clock(screen, game_time)
                     display_text(
                         screen,
                         "Pass the device to Player 2",
@@ -89,11 +90,11 @@ def main():
                         width // 2 - 175,
                         25,
                     )
-                    space_input(screen, width, height, white, clock)
+                    space_input(screen, width, height, white, clock, game_time)
 
                     screen.fill((0, 0, 0))
                     game_view.draw()
-                    game_clock(screen)
+                    game_clock(screen, game_time)
                     display_text(
                         screen,
                         "Player 2 Choose Your Move (RED)",
@@ -104,20 +105,20 @@ def main():
                     # Player 2's turn
                     point_defined = False
                     while point_defined is False:
-                        player2_first_point = player_two.get_first_point(screen)
-                        if player2_first_point is not None:
+                        player2_first_point = player_two.get_first_point(screen, game_time)
+                        if player2_first_point is not game_time:
                             point_defined = True
 
                     point_defined = False
                     while point_defined is False:
                         player2_second_point = player_two.get_second_point(
-                            player2_first_point, screen
+                            player2_first_point, screen, game_time
                         )
-                        if player2_second_point is not None:
+                        if player2_second_point is not game_time:
                             point_defined = True
 
                     player2_number = player_two.check_number(
-                        game_model.oliners_count[player2_first_point], screen
+                        game_model.oliners_count[player2_first_point], screen, game_time
                     )
                     if player2_first_point == player2_second_point:
                         player2_number = 2
@@ -161,10 +162,10 @@ def main():
 
                     game_model.check_negative()
 
-                    space_input(screen, width, height, white, clock)
+                    space_input(screen, width, height, white, clock, game_time)
 
                     screen.fill((0, 0, 0))
-                    game_clock(screen)
+                    game_clock(screen, game_time)
                     display_text(
                         screen,
                         "Revealing Moves...",
@@ -184,7 +185,7 @@ def main():
                     else:
                         game_model.add_oliners()
                         pg.display.flip()
-                        space_input(screen, width, height, white, clock)
+                        space_input(screen, width, height, white, clock, game_time)
                         screen.fill((0, 0, 0))
             except TimeUp:
                 clock = False
@@ -195,12 +196,12 @@ def main():
                 if 'winner' not in locals():
                     winner = 0
 
-            space_input(screen, width, height, white, clock)
+            space_input(screen, width, height, white, clock, game_time)
 
             if time is False:
-                draw_end_screen(screen, width, width, black, white, 0)
+                draw_end_screen(screen, width, height, black, white, 0)
             else:
-                draw_end_screen(screen, width, width, black, white, winner)
+                draw_end_screen(screen, width, height, black, white, winner)
             pg.time.wait(1000)
 
             waiting_for_input = True

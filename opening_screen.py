@@ -68,12 +68,13 @@ def help_screen(screen, width, height):
         pygame.display.flip()  # Update the display
 
 
-def main_menu(screen, width, height):
+def main_menu(screen, width, height, test_mode=False):
     """Displays the main menu and handles button interaction.
     Args:
         screen (pygame.Surface): The Pygame screen to draw on.
         width (int): The width of the screen.
         height (int): The height of the screen.
+        test_mode (bool): If True, the function will not wait for user input.
     """
     font = get_font(50)
 
@@ -87,8 +88,8 @@ def main_menu(screen, width, height):
         "Help": pygame.Rect((width - button_width) // 2, (height - button_height) // 2, button_width, button_height),
         "Quit": pygame.Rect((width - button_width) // 2, 400, button_width, button_height)
     }
-
-    pygame.event.get()  # Clear the event queue
+    if not test_mode:
+        pygame.event.get()  # Clear the event queue
 
     while True:
         screen.fill((200, 200, 200))  # Fill the screen with gray
@@ -114,3 +115,7 @@ def main_menu(screen, width, height):
             screen.blit(label, label_rect)  # Draw the text on the button
 
         pygame.display.flip()
+
+        # For tests
+        if test_mode:
+            break

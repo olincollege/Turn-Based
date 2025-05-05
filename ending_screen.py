@@ -16,7 +16,8 @@ def draw_end_screen(screen, screen_width, screen_height, black, white, winner):
         winner: The index of the winning player (1 or 2), or 3 for a draw.
     """
     screen.fill(black)
-    sound = pygame.mixer.Sound("Sounds/Game_Over.mp3")
+    if pygame.get_init():
+        sound = pygame.mixer.Sound("Sounds/Game_Over.mp3")
 
     font = pygame.font.SysFont(None, 48)
     title_text = font.render("Game Over! Press Q to exit or R to play again.", True, white)
@@ -33,5 +34,6 @@ def draw_end_screen(screen, screen_width, screen_height, black, white, winner):
     screen.blit(title_text, title_rect)
     screen.blit(prompt_text, prompt_rect)
 
-    pygame.mixer.Sound.play(sound)
-    pygame.display.flip()
+    if pygame.get_init():
+        pygame.mixer.Sound.play(sound)
+        pygame.display.flip()

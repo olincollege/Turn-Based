@@ -2,7 +2,7 @@
 
 import pygame as pg
 
-def game_clock(screen):
+def game_clock(screen, game_time):
     """
     A simple game clock that displays a countdown timer in Pygame.
     The timer starts at 5 minutes (300 seconds) and counts down to zero.
@@ -16,8 +16,11 @@ def game_clock(screen):
     clock = pg.time.Clock()
     font = pg.font.Font(None, 36)
 
+    if game_time is None:
+        game_time = 0
+
     # Calculate elapsed time
-    current_time = pg.time.get_ticks()
+    current_time = pg.time.get_ticks() - game_time
     elapsed_time = start_time - current_time
     if elapsed_time < 0:
         elapsed_time = 0  # Prevent negative time

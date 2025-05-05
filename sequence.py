@@ -41,7 +41,7 @@ def get_font(size):
     return pg.font.Font(None, size)
 
 
-def space_input(screen, screen_width, screen_height, white, clock):
+def space_input(screen, screen_width, screen_height, white, clock, game_time):
     """Wait for the player to press the space key while updating the game clock.
     Args:
         screen (pygame.Surface): The Pygame screen to draw on.
@@ -54,15 +54,17 @@ def space_input(screen, screen_width, screen_height, white, clock):
     while waiting:
         # Handle events
         for event in pg.event.get():
+            print("hey")
             if event.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
             elif event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
+                print('yo')
                 waiting = False  # Exit the loop when SPACE is pressed
 
         # Update and display the game clock
         if clock:
-            game_clock(screen)
+            game_clock(screen, game_time)
 
         # Display the "Press Spacebar" message
         font = pg.font.SysFont(None, 24)
