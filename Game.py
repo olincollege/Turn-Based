@@ -6,6 +6,7 @@ from openingscreen import main_menu, help_screen
 from ending_screen import draw_end_screen
 from game_clock import game_clock, TimeUp
 from sequence import display_text, init_game, space_input
+from mini_help import mini_help
 from controller import MouseController
 from model import Model
 from view import View
@@ -38,42 +39,7 @@ def main():
             player_two.player = 2
             running = True
 
-            display_text(
-                screen,
-                "TO MOVE: FIRST SELECT A BUILDING YOU OWN",
-                white,
-                50,
-                height - 550,
-            )
-            display_text(
-                screen,
-                "THEN SELECT ANOTHER BUILDING",
-                white,
-                50,
-                height - 450,
-            )
-            display_text(
-                screen,
-                "THEN TYPE A NUMBER FROM 1-9",
-                white,
-                50,
-                height - 350,
-            )
-            display_text(
-                screen,
-                "IF YOU SEND TO THE SAME BUILDING YOU",
-                white,
-                50,
-                height - 250,
-            )
-
-            display_text(
-                screen,
-                "SENT FROM, YOU ONLY GET +2",
-                white,
-                50,
-                height - 200,
-            )
+            mini_help(screen, height, white)  # Display the mini help screen
 
             space_input(screen, width, height, white, clock=False)
             try:
@@ -93,20 +59,20 @@ def main():
                     )
                     point_defined = False
                     while point_defined is False:
-                        player1_first_point = player_one.get_first_point()
+                        player1_first_point = player_one.get_first_point(screen)
                         if player1_first_point is not None:
                             point_defined = True
 
                     point_defined = False
                     while point_defined is False:
                         player1_second_point = player_one.get_second_point(
-                            player1_first_point
+                            player1_first_point, screen
                         )
                         if player1_second_point is not None:
                             point_defined = True
 
                     player1_number = player_one.check_number(
-                        game_model.oliners_count[player1_first_point]
+                        game_model.oliners_count[player1_first_point], screen
                     )
                     if player1_first_point == player1_second_point:
                         player1_number = 2
@@ -138,20 +104,20 @@ def main():
                     # Player 2's turn
                     point_defined = False
                     while point_defined is False:
-                        player2_first_point = player_two.get_first_point()
+                        player2_first_point = player_two.get_first_point(screen)
                         if player2_first_point is not None:
                             point_defined = True
 
                     point_defined = False
                     while point_defined is False:
                         player2_second_point = player_two.get_second_point(
-                            player2_first_point
+                            player2_first_point, screen
                         )
                         if player2_second_point is not None:
                             point_defined = True
 
                     player2_number = player_two.check_number(
-                        game_model.oliners_count[player1_first_point]
+                        game_model.oliners_count[player2_first_point], screen
                     )
                     if player2_first_point == player2_second_point:
                         player2_number = 2
