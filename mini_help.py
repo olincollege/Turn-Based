@@ -3,6 +3,12 @@
 from sequence import display_text
 
 def mini_help(screen, height, white):
+    """Display a mini help screen with game instructions.
+    Args:
+        screen: The pygame screen to draw on.
+        height: The height of the screen.
+        white: The color white for the text.
+    """
     display_text(
                 screen,
                 "TO MOVE: FIRST SELECT A BUILDING YOU OWN",

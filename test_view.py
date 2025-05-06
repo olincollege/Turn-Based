@@ -1,7 +1,9 @@
+"""Unit tests for the View class in the game."""
+
 import pytest
 import pygame as pg
-from Model import Model
-from View import View
+from model import Model
+from view import View
 
 @pytest.fixture(scope="module", autouse=True)
 def init_pygame():
@@ -15,7 +17,7 @@ def setup_view():
     """Fixture to set up the game model and view."""
     model = Model()
     view = View(model)
-    view.screen = pg.display.set_mode((800, 600))  # Create a screen for drawing
+    view.screen = pg.display.set_mode((800, 600), pg.HIDDEN)  # Create a screen for drawing
     return view
 
 def test_draw_circles(setup_view):

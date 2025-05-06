@@ -1,10 +1,11 @@
-import pytest
+"""Unit tests for the ending_screen module."""
+
 from unittest.mock import Mock, patch
+import pytest
 from ending_screen import draw_end_screen
 
 @pytest.mark.unit
-@patch("pygame.font.SysFont")
-def test_draw_end_screen(mock_sysfont):
+def test_draw_end_screen():
     """Test the draw_end_screen function.
     This function tests the rendering of the end screen with different game outcomes.
    """

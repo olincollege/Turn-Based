@@ -1,3 +1,5 @@
+"""Test suite for the opening screen of the game."""
+
 import pytest
 import pygame
 from opening_screen import main_menu
@@ -12,6 +14,11 @@ from opening_screen import main_menu
     ],
 )
 def test_main_menu(event, expected_result):
+    """Test the main menu function with different events.
+    Args:
+        event: The Pygame event to simulate.
+        expected_result: The expected result from the main_menu function.
+    """
     # Initialize Pygame
     pygame.init()
 

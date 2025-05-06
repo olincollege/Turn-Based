@@ -1,8 +1,11 @@
+"""Test the game_clock function for correct behavior."""
+
 import pytest
 import pygame as pg
 from game_clock import game_clock, TimeUp
 
 def test_game_clock():
+    """Test the game_clock function for correct behavior."""
     # Initialize Pygame
     pg.init()
 
