@@ -57,3 +57,12 @@ To run unit tests, execute the following command in your terminal:
 ```bash
 pytest
 ```
+
+### Running Pylint
+To run Pylint, execute the following command in your terminal:
+
+```bash
+./lint_all.sh
+```
+
+For the sake of test accuracy, there are some Pylint errors that are ignored. They are configured to not appear within the .pylintrc file.
