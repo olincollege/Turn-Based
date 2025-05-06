@@ -54,12 +54,10 @@ def space_input(screen, screen_width, screen_height, white, clock, game_time):
     while waiting:
         # Handle events
         for event in pg.event.get():
-            print("hey")
             if event.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
             elif event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
-                print('yo')
                 waiting = False  # Exit the loop when SPACE is pressed
 
         # Update and display the game clock
