@@ -5,7 +5,6 @@ import pygame
 
 class Model:
     """The Model class represents the game model for a network map game."""
-
     def __init__(self):
         """
         Initializes the game model with necessary attributes and settings.
@@ -105,8 +104,8 @@ class Model:
         """
         Checks if one player has won the game.
         Returns:
-            int: 0 if no one has won,
-            1 if player 1 has won,
+            int: 0 if no one has won, 
+            1 if player 1 has won, 
             2 if player 2 has won
         """
         owner_in = list(self.owners.values())
