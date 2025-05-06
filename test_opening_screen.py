@@ -4,12 +4,22 @@ import pytest
 import pygame
 from opening_screen import main_menu
 
+
 @pytest.mark.parametrize(
     "event, expected_result",
     [
-        (pygame.event.Event(pygame.MOUSEBUTTONDOWN, {"pos": (400, 120)}), "play"),  # Adjusted position for "Play"
-        (pygame.event.Event(pygame.MOUSEBUTTONDOWN, {"pos": (400, 300)}), "help"),  # Adjusted position for "Help"
-        (pygame.event.Event(pygame.MOUSEBUTTONDOWN, {"pos": (400, 420)}), "quit"),  # Adjusted position for "Quit"
+        (
+            pygame.event.Event(pygame.MOUSEBUTTONDOWN, {"pos": (400, 120)}),
+            "play",
+        ),  # Adjusted position for "Play"
+        (
+            pygame.event.Event(pygame.MOUSEBUTTONDOWN, {"pos": (400, 300)}),
+            "help",
+        ),  # Adjusted position for "Help"
+        (
+            pygame.event.Event(pygame.MOUSEBUTTONDOWN, {"pos": (400, 420)}),
+            "quit",
+        ),  # Adjusted position for "Quit"
         (pygame.event.Event(pygame.QUIT), "quit"),  # Quit event
     ],
 )

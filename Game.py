@@ -1,4 +1,4 @@
-""" Main game file that initializes the game, handles the main loop, and manages game states."""
+"""Main game file that initializes the game, handles the main loop, and manages game states."""
 
 import sys
 import pygame as pg
@@ -10,6 +10,7 @@ from mini_help import mini_help
 from controller import MouseController
 from model import Model
 from view import View
+
 
 def main():
     """
@@ -42,7 +43,9 @@ def main():
             mini_help(screen, height, white)  # Display the mini help screen
 
             space_input(screen, width, height, white, False, None)
-            game_time = pg.time.get_ticks()  # Get the current time in milliseconds
+            game_time = (
+                pg.time.get_ticks()
+            )  # Get the current time in milliseconds
             try:
                 clock = True
                 while running:
@@ -60,7 +63,9 @@ def main():
                     )
                     point_defined = False
                     while point_defined is False:
-                        player1_first_point = player_one.get_first_point(screen, game_time)
+                        player1_first_point = player_one.get_first_point(
+                            screen, game_time
+                        )
                         if player1_first_point is not game_time:
                             point_defined = True
 
@@ -73,7 +78,9 @@ def main():
                             point_defined = True
 
                     player1_number = player_one.check_number(
-                        game_model.oliners_count[player1_first_point], screen, game_time
+                        game_model.oliners_count[player1_first_point],
+                        screen,
+                        game_time,
                     )
                     if player1_first_point == player1_second_point:
                         player1_number = 2
@@ -105,7 +112,9 @@ def main():
                     # Player 2's turn
                     point_defined = False
                     while point_defined is False:
-                        player2_first_point = player_two.get_first_point(screen, game_time)
+                        player2_first_point = player_two.get_first_point(
+                            screen, game_time
+                        )
                         if player2_first_point is not game_time:
                             point_defined = True
 
@@ -118,7 +127,9 @@ def main():
                             point_defined = True
 
                     player2_number = player_two.check_number(
-                        game_model.oliners_count[player2_first_point], screen, game_time
+                        game_model.oliners_count[player2_first_point],
+                        screen,
+                        game_time,
                     )
                     if player2_first_point == player2_second_point:
                         player2_number = 2
@@ -129,7 +140,7 @@ def main():
                         game_model.oliners_count[player2_first_point] += 2
                     if player1_first_point == player1_second_point:
                         game_model.oliners_count[player1_first_point] += 2
-                    #Works if they send to the same point
+                    # Works if they send to the same point
                     if player1_second_point == player2_second_point:
                         if player1_number > player2_number:
                             diff = player1_number - player2_number
@@ -137,8 +148,12 @@ def main():
                             game_model.send_oliners(
                                 player1_first_point, player1_second_point, diff
                             )
-                            game_model.oliners_count[player1_first_point] -= player2_number
-                            game_model.oliners_count[player2_first_point] -= player2_number
+                            game_model.oliners_count[
+                                player1_first_point
+                            ] -= player2_number
+                            game_model.oliners_count[
+                                player2_first_point
+                            ] -= player2_number
                             # Some spaghetti code but its fine trust
                         elif player1_number < player2_number:
                             diff = player2_number - player1_number
@@ -147,17 +162,29 @@ def main():
                                 player2_second_point,
                                 diff,
                             )
-                            game_model.oliners_count[player2_first_point] -= player1_number
-                            game_model.oliners_count[player1_first_point] -= player1_number
+                            game_model.oliners_count[
+                                player2_first_point
+                            ] -= player1_number
+                            game_model.oliners_count[
+                                player1_first_point
+                            ] -= player1_number
                         else:
-                            game_model.oliners_count[player1_first_point] -= player1_number
-                            game_model.oliners_count[player2_first_point] -= player2_number
+                            game_model.oliners_count[
+                                player1_first_point
+                            ] -= player1_number
+                            game_model.oliners_count[
+                                player2_first_point
+                            ] -= player2_number
                     else:
                         game_model.send_oliners(
-                            player1_first_point, player1_second_point, player1_number
+                            player1_first_point,
+                            player1_second_point,
+                            player1_number,
                         )
                         game_model.send_oliners(
-                            player2_first_point, player2_second_point, player2_number
+                            player2_first_point,
+                            player2_second_point,
+                            player2_number,
                         )
 
                     game_model.check_negative()
@@ -173,7 +200,9 @@ def main():
                         width // 2 - 125,
                         25,
                     )
-                    pg.time.wait(1000)  # Wait for 1 second before revealing moves
+                    pg.time.wait(
+                        1000
+                    )  # Wait for 1 second before revealing moves
 
                     # Reveal both moves
                     game_view.draw()
@@ -185,7 +214,9 @@ def main():
                     else:
                         game_model.add_oliners()
                         pg.display.flip()
-                        space_input(screen, width, height, white, clock, game_time)
+                        space_input(
+                            screen, width, height, white, clock, game_time
+                        )
                         screen.fill((0, 0, 0))
             except TimeUp:
                 clock = False
@@ -193,7 +224,7 @@ def main():
                 time = False
             finally:
                 # Ensure winner, time and clock are always defined
-                if 'winner' not in locals():
+                if "winner" not in locals():
                     winner = 0
 
             space_input(screen, width, height, white, clock, game_time)

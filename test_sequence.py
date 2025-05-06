@@ -19,7 +19,10 @@ def test_space_input_exits_on_space(key):
     screen = pg.display.set_mode((800, 600), pg.HIDDEN)
 
     # Mock the pg.event.get() function to simulate a space key press
-    with patch("pygame.event.get", return_value=[pg.event.Event(pg.KEYDOWN, {"key": key})]):
+    with patch(
+        "pygame.event.get",
+        return_value=[pg.event.Event(pg.KEYDOWN, {"key": key})],
+    ):
         # Call the space_input function and ensure it exits without errors
         space_input(screen, 800, 600, (255, 255, 255), True, None)
 

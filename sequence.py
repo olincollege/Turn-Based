@@ -6,6 +6,7 @@ import sys
 import pygame as pg
 from game_clock import game_clock
 
+
 # Initialize Pygame and set up screen dimensions and colors
 def init_game():
     """Initializes Pygame and sets up the game screen."""
@@ -31,6 +32,7 @@ def display_text(screen, text, color, x_val, y_val):
     label = font.render(text, True, color)
     screen.blit(label, (x_val, y_val))
     pg.display.flip()
+
 
 def get_font(size):
     """Returns a pygame font object with the given size.

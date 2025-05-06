@@ -2,6 +2,7 @@
 
 import pygame as pg
 
+
 def game_clock(screen, game_time):
     """
     A simple game clock that displays a countdown timer in Pygame.
@@ -50,6 +51,7 @@ def game_clock(screen, game_time):
     clock.tick(60)
 
     return elapsed_time  # Return elapsed time in seconds
+
 
 class TimeUp(Exception):
     """Custom exception to indicate that the game time has run out."""

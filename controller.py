@@ -64,7 +64,9 @@ class MouseController:
         for index, circle in enumerate(self.circle_data):
             x_dist = cursor_pos[0] - circle[0]
             y_dist = cursor_pos[1] - circle[1]
-            if (x_dist**2 + y_dist**2) < 1200:  # Adjust the distance threshold as needed
+            if (
+                x_dist**2 + y_dist**2
+            ) < 1200:  # Adjust the distance threshold as needed
                 if self.owners[index] in player:
                     self.pop_sound.play()
                     return index
@@ -148,17 +150,19 @@ class MouseController:
                             return second_point
             game_clock(screen, game_time)
 
+
 # WHAT WE NEED FROM MODEL
 # The list of circle coordinates and circle sizes
 # The list of connections of nodes
 # The number of blips at each point
 class KeyController:
-    """ 
+    """
     A controller class that handles keyboard input for a turn-based game.
     It allows players to select circles, input numbers, and manage game interactions
     through keyboard events. The controller interacts with the model and view to
     facilitate the game logic and rendering.
     """
+
     def __init__(self):
         self.owners = []  # Initialize owners as an empty list
 
@@ -175,7 +179,9 @@ class KeyController:
         index = input("Which circle do you want to select?")
         try:
             index = int(index)
-            if index < 0 or index >= len(self.owners):  # Ensure index is within range
+            if index < 0 or index >= len(
+                self.owners
+            ):  # Ensure index is within range
                 raise ValueError("Input not in range")
         except ValueError:
             print("Input not in range or not a number")
